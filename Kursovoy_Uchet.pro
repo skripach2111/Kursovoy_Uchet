@@ -10,17 +10,20 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addinvoice_dialog.cpp \
     authorization_dialog.cpp \
     main.cpp \
     mainwindow.cpp \
     moreaboutinvoice_dialog.cpp
 
 HEADERS += \
+    addinvoice_dialog.h \
     authorization_dialog.h \
     mainwindow.h \
     moreaboutinvoice_dialog.h
 
 FORMS += \
+    addinvoice_dialog.ui \
     authorization_dialog.ui \
     mainwindow.ui \
     moreaboutinvoice_dialog.ui

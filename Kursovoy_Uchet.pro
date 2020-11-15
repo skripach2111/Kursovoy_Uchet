@@ -12,15 +12,18 @@ CONFIG += c++11
 SOURCES += \
     authorization_dialog.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    moreaboutinvoice_dialog.cpp
 
 HEADERS += \
     authorization_dialog.h \
-    mainwindow.h
+    mainwindow.h \
+    moreaboutinvoice_dialog.h
 
 FORMS += \
     authorization_dialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    moreaboutinvoice_dialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

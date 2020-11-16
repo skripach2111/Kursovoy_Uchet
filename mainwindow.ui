@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>998</width>
     <height>600</height>
    </rect>
   </property>
@@ -27,138 +27,285 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
+    <item row="0" column="0">
+     <widget class="QStackedWidget" name="stackedWidget_MainButtonsTop">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <widget class="QWidget" name="page_MainButtons">
+       <layout class="QGridLayout" name="gridLayout_18">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="pushButton_MainInvoices">
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Накладные</string>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="5">
+         <widget class="QPushButton" name="pushButton_MainUsers">
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Пользователи</string>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QPushButton" name="pushButton_MainStorages">
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Склады</string>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="6">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>162</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="4">
+         <widget class="QPushButton" name="pushButton_MainReports">
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Отчёты</string>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <spacer name="horizontalSpacer_11">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="2">
+         <widget class="QPushButton" name="pushButton_MainProducts">
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Товары</string>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_4"/>
+     </widget>
+    </item>
     <item row="1" column="0">
      <widget class="QStackedWidget" name="stackedWidget_MainWorkSpace">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
-      <widget class="QWidget" name="page"/>
-      <widget class="QWidget" name="page_Invoices">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QStackedWidget" name="stackedWidget_ControlButtons">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+      <widget class="QWidget" name="page">
+       <layout class="QGridLayout" name="gridLayout_20">
+        <item row="1" column="1">
+         <widget class="QPushButton" name="pushButton_SetProduct">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>31</height>
+           </size>
           </property>
-          <property name="currentIndex">
-           <number>0</number>
+          <property name="text">
+           <string>Изменить</string>
           </property>
-          <widget class="QWidget" name="page_ButtonsEditingInvoices">
-           <layout class="QVBoxLayout" name="verticalLayout">
-            <item>
-             <spacer name="verticalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_AddInvoice">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>31</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>8</pointsize>
-                <weight>75</weight>
-                <italic>false</italic>
-                <bold>true</bold>
-                <underline>false</underline>
-               </font>
-              </property>
-              <property name="text">
-               <string>Добавить</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_StornInvoice">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>31</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>8</pointsize>
-                <weight>75</weight>
-                <italic>false</italic>
-                <bold>true</bold>
-                <underline>false</underline>
-               </font>
-              </property>
-              <property name="text">
-               <string>Сторнировать</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_10">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_MoreAboutInvoice">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>31</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>8</pointsize>
-                <weight>75</weight>
-                <italic>false</italic>
-                <bold>true</bold>
-                <underline>false</underline>
-               </font>
-              </property>
-              <property name="text">
-               <string>Подробнее</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="page_6"/>
          </widget>
         </item>
-        <item>
+        <item row="1" column="0">
+         <spacer name="horizontalSpacer_13">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="2">
+         <widget class="QPushButton" name="pushButton_AddProduct">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Добавить</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QPushButton" name="pushButton_RemoveProduct">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Удалить</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="4">
+         <spacer name="horizontalSpacer_14">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="0" colspan="5">
+         <widget class="QTableWidget" name="tableWidget_Products">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <italic>true</italic>
+            <bold>true</bold>
+           </font>
+          </property>
+          <column>
+           <property name="text">
+            <string>Номенклатура</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Наименование</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Ед. изм.</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Цена</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_Invoices">
+       <layout class="QGridLayout" name="gridLayout_19">
+        <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget_Invoices">
           <property name="currentIndex">
            <number>0</number>
@@ -448,8 +595,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>663</width>
-                 <height>411</height>
+                 <width>976</width>
+                 <height>377</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -481,7 +628,7 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>647</width>
+                     <width>960</width>
                      <height>801</height>
                     </rect>
                    </property>
@@ -1360,228 +1507,234 @@
           </widget>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QStackedWidget" name="stackedWidget_ControlButtons">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="page_ButtonsEditingInvoices">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <spacer name="horizontalSpacer_12">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_16">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_18">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_22">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_20">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_MoreAboutInvoice">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>31</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>8</pointsize>
+                <weight>75</weight>
+                <italic>false</italic>
+                <bold>true</bold>
+                <underline>false</underline>
+               </font>
+              </property>
+              <property name="text">
+               <string>Подробнее</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_AddInvoice">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>31</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>8</pointsize>
+                <weight>75</weight>
+                <italic>false</italic>
+                <bold>true</bold>
+                <underline>false</underline>
+               </font>
+              </property>
+              <property name="text">
+               <string>Добавить</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_StornInvoice">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>31</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>8</pointsize>
+                <weight>75</weight>
+                <italic>false</italic>
+                <bold>true</bold>
+                <underline>false</underline>
+               </font>
+              </property>
+              <property name="text">
+               <string>Сторнировать</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_21">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_23">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_19">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_17">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_15">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_6"/>
+         </widget>
+        </item>
        </layout>
       </widget>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QStackedWidget" name="stackedWidget_MainButtonsTop">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <widget class="QWidget" name="page_MainButtons">
-       <layout class="QGridLayout" name="gridLayout_18">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <item row="0" column="9">
-         <widget class="Line" name="line_5">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3">
-         <widget class="Line" name="line_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2" colspan="9">
-         <widget class="Line" name="line_6">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="10">
-         <widget class="QPushButton" name="pushButton_MainUsers">
-          <property name="minimumSize">
-           <size>
-            <width>120</width>
-            <height>31</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Пользователи</string>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="12">
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>162</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="0">
-         <spacer name="horizontalSpacer_11">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="5">
-         <widget class="Line" name="line_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="7">
-         <widget class="Line" name="line_4">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="11" rowspan="2">
-         <widget class="Line" name="line_7">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QPushButton" name="pushButton_MainInvoices">
-          <property name="minimumSize">
-           <size>
-            <width>120</width>
-            <height>31</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Накладные</string>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="4">
-         <widget class="QPushButton" name="pushButton_MainProducts">
-          <property name="minimumSize">
-           <size>
-            <width>120</width>
-            <height>31</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Товары</string>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="8">
-         <widget class="QPushButton" name="pushButton_MainReports">
-          <property name="minimumSize">
-           <size>
-            <width>120</width>
-            <height>31</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Отчёты</string>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="6">
-         <widget class="QPushButton" name="pushButton_MainStorages">
-          <property name="minimumSize">
-           <size>
-            <width>120</width>
-            <height>31</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Склады</string>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1" rowspan="2">
-         <widget class="Line" name="line_8">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="page_4"/>
      </widget>
     </item>
    </layout>
@@ -1591,7 +1744,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>998</width>
      <height>20</height>
     </rect>
    </property>

@@ -11,6 +11,7 @@ CONFIG += c++11
 
 SOURCES += \
     addinvoice_dialog.cpp \
+    addorsetproduct_dialog.cpp \
     addorsetproductininvoice_dialog.cpp \
     authorization_dialog.cpp \
     chooseproduct_dialog.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
 
 HEADERS += \
     addinvoice_dialog.h \
+    addorsetproduct_dialog.h \
     addorsetproductininvoice_dialog.h \
     authorization_dialog.h \
     chooseproduct_dialog.h \
@@ -28,6 +30,7 @@ HEADERS += \
 
 FORMS += \
     addinvoice_dialog.ui \
+    addorsetproduct_dialog.ui \
     addorsetproductininvoice_dialog.ui \
     authorization_dialog.ui \
     chooseproduct_dialog.ui \

@@ -16,6 +16,7 @@ SOURCES += \
     addorsetproductininvoice_dialog.cpp \
     addorsetprovider_dialog.cpp \
     addorsetstorage_dialog.cpp \
+    addorsetuser_dialog.cpp \
     authorization_dialog.cpp \
     chooseproduct_dialog.cpp \
     main.cpp \
@@ -29,6 +30,7 @@ HEADERS += \
     addorsetproductininvoice_dialog.h \
     addorsetprovider_dialog.h \
     addorsetstorage_dialog.h \
+    addorsetuser_dialog.h \
     authorization_dialog.h \
     chooseproduct_dialog.h \
     mainwindow.h \
@@ -41,6 +43,7 @@ FORMS += \
     addorsetproductininvoice_dialog.ui \
     addorsetprovider_dialog.ui \
     addorsetstorage_dialog.ui \
+    addorsetuser_dialog.ui \
     authorization_dialog.ui \
     chooseproduct_dialog.ui \
     mainwindow.ui \

@@ -21,7 +21,8 @@ SOURCES += \
     chooseproduct_dialog.cpp \
     main.cpp \
     mainwindow.cpp \
-    moreaboutinvoice_dialog.cpp
+    moreaboutinvoice_dialog.cpp \
+    printpreview_dialog.cpp
 
 HEADERS += \
     addinvoice_dialog.h \
@@ -34,7 +35,8 @@ HEADERS += \
     authorization_dialog.h \
     chooseproduct_dialog.h \
     mainwindow.h \
-    moreaboutinvoice_dialog.h
+    moreaboutinvoice_dialog.h \
+    printpreview_dialog.h
 
 FORMS += \
     addinvoice_dialog.ui \
@@ -47,7 +49,8 @@ FORMS += \
     authorization_dialog.ui \
     chooseproduct_dialog.ui \
     mainwindow.ui \
-    moreaboutinvoice_dialog.ui
+    moreaboutinvoice_dialog.ui \
+    printpreview_dialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

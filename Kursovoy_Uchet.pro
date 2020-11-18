@@ -19,6 +19,7 @@ SOURCES += \
     addorsetuser_dialog.cpp \
     authorization_dialog.cpp \
     chooseproduct_dialog.cpp \
+    databasemodule.cpp \
     main.cpp \
     mainwindow.cpp \
     moreaboutinvoice_dialog.cpp \
@@ -34,8 +35,10 @@ HEADERS += \
     addorsetuser_dialog.h \
     authorization_dialog.h \
     chooseproduct_dialog.h \
+    databasemodule.h \
     mainwindow.h \
     moreaboutinvoice_dialog.h \
+    objectsdatabase.h \
     printpreview_dialog.h
 
 FORMS += \

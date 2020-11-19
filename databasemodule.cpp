@@ -632,3 +632,102 @@ QList <invoice> DatabaseModule::getListInvoiceByTypeAvialableConnectedUser(int i
 
     return listInvoices;
 }
+
+QList <product> DatabaseModule::getListProducts()
+{
+    QList <product> listProducts;
+    product pr;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM product");
+    qu.exec();
+
+    while(qu.next())
+    {
+        pr.id = qu.value(0).toInt();
+        pr.title = qu.value(1).toString();
+        pr.measuring = qu.value(2).toString();
+        pr.nomenclature = qu.value(3).toString();
+        pr.price = qu.value(4).toFloat();
+        listProducts.push_back(pr);
+    }
+
+    return listProducts;
+}
+
+QList <storage> DatabaseModule::getListStorages()
+{
+    QList <storage> listStorages;
+    storage st;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM storage");
+    qu.exec();
+
+    QSqlQuery qu2;
+    qu2.prepare("SELECT sum(quantity) FROM product_in_storage WHERE idStorage = :idStorage");
+
+    while(qu.next())
+    {
+        st.id = qu.value(0).toInt();
+        st.title = qu.value(1).toString();
+        st.city = qu.value(2).toString();
+        st.address = qu.value(3).toString();
+        st.capacity = qu.value(4).toInt();
+
+        qu2.bindValue(":idStorage", st.id);
+        qu2.exec();
+        qu2.next();
+
+        st.workload = qu2.value(0).toInt();
+        st.listProducts = getListProductByIdStorage(st.id);
+
+        listStorages.push_back(st);
+    }
+
+    return listStorages;
+}
+
+QList <position> DatabaseModule::getListPositions()
+{
+    QList <position> listPositions;
+    position pos;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM position");
+    qu.exec();
+
+    while(qu.next())
+    {
+        pos.id = qu.value(0).toInt();
+        pos.title = qu.value(1).toString();
+
+        listPositions.push_back(pos);
+    }
+
+    return listPositions;
+}
+
+QList <user> DatabaseModule::getListUsers()
+{
+    QList <user> listUsers;
+    user us;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM users");
+    qu.exec();
+
+    while(qu.next())
+    {
+        us.id = qu.value(0).toInt();
+        us.login = qu.value(1).toString();
+        us.password = qu.value(2).toString();
+        us.pib = qu.value(3).toString();
+        us.phonenumber = qu.value(4).toString();
+        us.position = getPositionById(qu.value(5).toInt());
+
+        listUsers.push_back(us);
+    }
+
+    return listUsers;
+}

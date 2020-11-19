@@ -45,13 +45,18 @@ public:
 
     QList <product> getListProductByIdStorage(int idStorage);
     QList <product> getListProductByIdInvoice(int idInvoice);
+    QList <product> getListProducts();
+
+    QList <storage> getListStorages();
+
+    QList <position> getListPositions();
 
     QList <invoice> getListInvoiceByType(int idType);
     QList <invoice> getListInvoiceByType(int idType, int idStorage);
     QList <invoice> getListInvoiceByTypeAvialableConnectedUser(int idType);
     QList <storno> getStornedInvoices();
 
-    QList <user> getUsers();
+    QList <user> getListUsers();
 };
 
 #endif // DATABASEMODULE_H

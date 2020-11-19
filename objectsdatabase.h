@@ -27,7 +27,8 @@ struct storage
     QString title;
     QString city;
     QString address;
-    float capacity;
+    int capacity;
+    int workload;
 
     QList <product> listProducts;
 };

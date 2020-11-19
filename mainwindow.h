@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "databasemodule.h"
+#include "addorsetstorage_dialog.h"
+#include "addorsetuser_dialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,10 +23,23 @@ public:
     void setWorkspaceForHeadOfStorage();
     void setWorkspaceForAccountant();
 
-    void updateComingInvoices();
-    void updateSenderInvoices();
-    void updateMovingInvoices();
-    void updateStornedInvoices();
+    void updateComingInvoicesTable();
+    void updateSenderInvoicesTable();
+    void updateMovingInvoicesTable();
+    void updateStornedInvoicesTable();
+    void updateStorageTable();
+    void updateUserTable();
+
+private slots:
+    void slot_pushButton_MainInvoices_clicked();
+    void slot_pushButton_MainProducts_clicked();
+    void slot_pushButton_MainStorages_clicked();
+    void slot_pushButton_MainReports_clicked();
+    void slot_pushButton_MainProviders_clicked();
+    void slot_pushButton_MainClients_clicked();
+    void slot_pushButton_MainUsers_clicked();
+    void slot_pushButton_AddStorage_clicked();
+    void slot_pushButton_AddUser_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -9,33 +9,28 @@ bool DatabaseModule::setDatabaseConnection(QSqlDatabase db_connection, user user
 {
     db = db_connection;
     connectedUser = user_connection;
-
-    db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("localhost");
-    db.setPort(3306);
-    db.setDatabaseName("baza");
-    db.setUserName("userbaza");
-    db.setPassword("password");
     return db.open();
 }
 
 int DatabaseModule::getPrivileges()
 {
     storage tmp_storage;
+    db.open();
 
     QSqlQuery query;
-    query.prepare("SELECT id, pib, phonenumber, idPosition FROM users WHERE login = :login");
+    query.prepare("SELECT id, PIB, phonenumber, idPosition FROM users WHERE login = :login");
     query.bindValue(":login", QVariant(connectedUser.login).toString());
     query.exec();
 
-    if(!query.size())
+    if(query.size() == 0)
         return 0;
     else
     {
-        connectedUser.id = query.value(1).toInt();
-        connectedUser.pib = query.value(2).toString();
-        connectedUser.phonenumber = query.value(3).toString();
-        connectedUser.position.id = query.value(4).toInt();
+        query.next();
+        connectedUser.id = query.value(0).toInt();
+        connectedUser.pib = query.value(1).toString();
+        connectedUser.phonenumber = query.value(2).toString();
+        connectedUser.position.id = query.value(3).toInt();
 
         query.prepare("SELECT * FROM storage WHERE :id = (SELECT * FROM user_storage)");
         query.bindValue(":id", connectedUser.id);
@@ -43,11 +38,11 @@ int DatabaseModule::getPrivileges()
 
         while(query.next())
         {
-            tmp_storage.id = query.value(1).toInt();
-            tmp_storage.title = query.value(2).toString();
-            tmp_storage.city = query.value(3).toString();
-            tmp_storage.address = query.value(4).toString();
-            tmp_storage.capacity = query.value(5).toFloat();
+            tmp_storage.id = query.value(0).toInt();
+            tmp_storage.title = query.value(1).toString();
+            tmp_storage.city = query.value(2).toString();
+            tmp_storage.address = query.value(3).toString();
+            tmp_storage.capacity = query.value(4).toFloat();
 
             connectedUser.listStorages.push_back(tmp_storage);
         }
@@ -55,8 +50,9 @@ int DatabaseModule::getPrivileges()
         query.prepare("SELECT title FROM storage WHERE :id = id");
         query.bindValue(":id", connectedUser.position.id);
         query.exec();
+        query.next();
 
-        connectedUser.position.title = query.value(1).toString();
+        connectedUser.position.title = query.value(0).toString();
     }
 
     return connectedUser.position.id;
@@ -85,13 +81,15 @@ resultQuery DatabaseModule::addUser(user user)
         query.bindValue(":PIB", QVariant(user.pib).toString());
         query.bindValue(":phonenumber", QVariant(user.phonenumber).toString());
         query.bindValue(":idPosition", user.position.id);
+        query.exec();
 
         if(user.listStorages.size() != 0)
         {
             query.prepare("SELECT id FROM users WHERE login = :login");
             query.bindValue(":login", QVariant(user.login).toString());
             query.exec();
-            user.id = query.value(1).toInt();
+            query.next();
+            user.id = query.value(0).toInt();
 
             query.prepare("INSERT user_storage VALUES(:idUser, :idStorage)");
 
@@ -130,6 +128,7 @@ resultQuery DatabaseModule::addClient(client client)
         query.bindValue(":PIB", QVariant(client.pib).toString());
         query.bindValue(":phonenumber", QVariant(client.phonenumber).toString());
         query.bindValue(":title", QVariant(client.title).toString());
+        query.exec();
 
         result.flag = true;
         result.message = "Клиент добавлен.";
@@ -159,6 +158,7 @@ resultQuery DatabaseModule::addProvider(provider provider)
         query.bindValue(":PIB", QVariant(provider.pib).toString());
         query.bindValue(":phonenumber", QVariant(provider.phonenumber).toString());
         query.bindValue(":requisites", QVariant(provider.requisites).toString());
+        query.exec();
 
         result.flag = true;
         result.message = "Поставщик добавлен.";
@@ -188,6 +188,7 @@ resultQuery DatabaseModule::addStorage(storage storage)
         query.bindValue(":city", QVariant(storage.city).toString());
         query.bindValue(":address", QVariant(storage.address).toString());
         query.bindValue(":capacity", storage.capacity);
+        query.exec();
 
         result.flag = true;
         result.message = "Склад добавлен.";
@@ -218,6 +219,7 @@ resultQuery DatabaseModule::addProduct(product product)
         query.bindValue(":measuring", QVariant(product.measuring).toString());
         query.bindValue(":nomenclature", QVariant(product.nomenclature).toString());
         query.bindValue(":price", product.price);
+        query.exec();
 
         result.flag = true;
         result.message = "Товар добавлен.";
@@ -310,4 +312,323 @@ resultQuery DatabaseModule::addInvoice(invoice invoice)
     result.flag = true;
     result.message = "Накладная добавлена.";
     return result;
+}
+
+typeInvoice DatabaseModule::getTypeInvoiceById(int id)
+{
+    typeInvoice type;
+
+    QSqlQuery query;
+    query.prepare("SELECT * FROM type_invoice WHERE id = :id");
+    query.bindValue(":id", id);
+    query.exec();
+    query.next();
+
+    type.id = query.value(0).toInt();
+    type.title = query.value(1).toString();
+
+    return type;
+}
+
+position DatabaseModule::getPositionById(int id)
+{
+    position pos;
+
+    QSqlQuery query;
+    query.prepare("SELECT * FROM position WHERE id = :id");
+    query.bindValue(":id", id);
+    query.exec();
+    query.next();
+
+    pos.id = query.value(0).toInt();
+    pos.title = query.value(1).toString();
+
+    return pos;
+}
+
+user DatabaseModule::getUserById(int id)
+{
+    user us;
+
+    QSqlQuery query;
+    query.prepare("SELECT * FROM users WHERE id = :id");
+    query.bindValue(":id", id);
+    query.exec();
+    query.next();
+
+    us.id = query.value(0).toInt();
+    us.login = query.value(1).toString();
+    us.password = query.value(2).toString();
+    us.pib = query.value(3).toString();
+    us.phonenumber = query.value(4).toString();
+    us.position = getPositionById(query.value(5).toInt());
+
+    return us;
+}
+
+provider DatabaseModule::getProviderById(int id)
+{
+    provider pr;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM users WHERE id = :id");
+    qu.bindValue(":id", id);
+    qu.exec();
+    qu.next();
+
+    pr.id = qu.value(0).toInt();
+    pr.title = qu.value(1).toString();
+    pr.pib = qu.value(2).toString();
+    pr.phonenumber = qu.value(3).toString();
+    pr.requisites = qu.value(4).toString();
+
+    return pr;
+}
+
+QList <product> DatabaseModule::getListProductByIdStorage(int idStorage)
+{
+    QList <product> listProducts;
+    product pr;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM product WHERE id = (SELECT idProduct FROM product_in_storage WHERE idStorage = :idStorage)");
+    qu.bindValue(":idStorage", idStorage);
+    qu.exec();
+
+    QSqlQuery qu2;
+    qu2.prepare("SELECT quantity FROM product_in_storage WHERE idProduct = :idProduct AND idStorage = :idStorage");
+    qu2.bindValue(":idStorage", idStorage);
+
+    while(qu.next())
+    {
+        pr.id = qu.value(0).toInt();
+        pr.title = qu.value(1).toString();
+        pr.measuring = qu.value(2).toString();
+        pr.nomenclature = qu.value(3).toString();
+        pr.price = qu.value(4).toFloat();
+
+        qu2.bindValue(":idProduct", pr.id);
+        qu2.exec();
+        qu2.next();
+
+        pr.quantity = qu2.value(0).toInt();
+
+        listProducts.push_back(pr);
+    }
+
+    return listProducts;
+}
+
+QList <product> DatabaseModule::getListProductByIdInvoice(int idInvoice)
+{
+    QList <product> listProducts;
+    product pr;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM product WHERE id = (SELECT idProduct FROM product_in_invoice WHERE idInvoice = :idInvoice)");
+    qu.bindValue(":idInvoice", idInvoice);
+    qu.exec();
+
+    QSqlQuery qu2;
+    qu2.prepare("SELECT price, quantity, accounting_price FROM product_in_invoice WHERE idProduct = :idProduct AND idInvoice = :idInvoice");
+    qu2.bindValue(":idInvoice", idInvoice);
+
+    while(qu.next())
+    {
+        pr.id = qu.value(0).toInt();
+        pr.title = qu.value(1).toString();
+        pr.measuring = qu.value(2).toString();
+        pr.nomenclature = qu.value(3).toString();
+
+        qu2.bindValue(":idProduct", pr.id);
+        qu2.exec();
+        qu2.next();
+
+        pr.priceSender = qu2.value(0).toFloat();
+        pr.quantity = qu2.value(1).toInt();
+        pr.price = qu2.value(2).toFloat();
+
+        listProducts.push_back(pr);
+    }
+
+    return listProducts;
+}
+
+storage DatabaseModule::getStorageById(int id)
+{
+    storage st;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM storage WHERE id = :id");
+    qu.bindValue(":id", id);
+    qu.exec();
+    qu.next();
+
+    st.id = qu.value(0).toInt();
+    st.title = qu.value(1).toString();
+    st.city = qu.value(2).toString();
+    st.address = qu.value(3).toString();
+    st.capacity = qu.value(4).toInt();
+    st.listProducts = getListProductByIdStorage(st.id);
+
+    return st;
+}
+
+client DatabaseModule::getClientById(int id)
+{
+    client cl;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM clients WHERE id = :id");
+    qu.bindValue(":id", id);
+    qu.exec();
+    qu.next();
+
+    cl.id = qu.value(0).toInt();
+    cl.pib = qu.value(1).toString();
+    cl.phonenumber = qu.value(2).toString();
+    cl.title = qu.value(3).toString();
+
+    return cl;
+}
+
+paymenttype DatabaseModule::getPaymentTypeById(int id)
+{
+    paymenttype pt;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM payment_type WHERE id = :id");
+    qu.bindValue(":id", id);
+    qu.exec();
+    qu.next();
+
+    pt.id = qu.value(0).toInt();
+    pt.title = qu.value(1).toString();
+
+    return pt;
+}
+
+QList <invoice> DatabaseModule::getListInvoiceByType(int idType)
+{
+    QList <invoice> listInvoices;
+    invoice tmp_invoice;
+
+    QSqlQuery query;
+    query.prepare("SELECT * FROM invoices WHERE idTypeInvoice = :idTypeInvoice");
+    query.bindValue(":idTypeInvoice", idType);
+    query.exec();
+
+    while(query.next())
+    {
+        tmp_invoice.id = query.value(0).toInt();
+        tmp_invoice.sum = query.value(1).toFloat();
+        tmp_invoice.data = query.value(2).toDate();
+        tmp_invoice.typeInvoice = getTypeInvoiceById(query.value(3).toInt());
+        tmp_invoice.listProducts = getListProductByIdInvoice(tmp_invoice.id);
+
+        switch (tmp_invoice.typeInvoice.id)
+        {
+        case 1:
+        {
+            tmp_invoice.storageRecipient = getStorageById(query.value(5).toInt());
+            tmp_invoice.provider = getProviderById(query.value(7).toInt());
+            tmp_invoice.note = query.value(10).toString();
+            tmp_invoice.storno = query.value(11).toInt();
+            tmp_invoice.userRecipient = getUserById(query.value(12).toInt());
+            break;
+        }
+        case 2:
+        {
+            tmp_invoice.storageSender = getStorageById(query.value(4).toInt());
+            tmp_invoice.userSender = getUserById(query.value(6).toInt());
+            tmp_invoice.client = getClientById(query.value(8).toInt());
+            tmp_invoice.paymentType = getPaymentTypeById(query.value(9).toInt());
+            tmp_invoice.note = query.value(10).toString();
+            tmp_invoice.storno = query.value(11).toInt();
+            break;
+        }
+        case 3:
+        {
+            tmp_invoice.storageSender = getStorageById(query.value(4).toInt());
+            tmp_invoice.storageRecipient = getStorageById(query.value(5).toInt());
+            tmp_invoice.userSender = getUserById(query.value(6).toInt());
+            tmp_invoice.userRecipient = getUserById(query.value(12).toInt());
+            tmp_invoice.note = query.value(10).toString();
+            tmp_invoice.storno = query.value(11).toInt();
+            break;
+        }
+        }
+
+        listInvoices.push_back(tmp_invoice);
+    }
+
+    return listInvoices;
+}
+
+QList <invoice> DatabaseModule::getListInvoiceByType(int idType, int idStorage)
+{
+    QList <invoice> listInvoices;
+    invoice tmp_invoice;
+
+    QSqlQuery query;
+    query.prepare("SELECT * FROM invoices WHERE idTypeInvoice = :idTypeInvoice AND (idStorageSender = :idStorage OR idStorageRecipient = :idStorage)");
+    query.bindValue(":idTypeInvoice", idType);
+    query.bindValue(":idStorage", idStorage);
+    query.exec();
+
+    while(query.next())
+    {
+        tmp_invoice.id = query.value(0).toInt();
+        tmp_invoice.sum = query.value(1).toFloat();
+        tmp_invoice.data = query.value(2).toDate();
+        tmp_invoice.typeInvoice = getTypeInvoiceById(query.value(3).toInt());
+        tmp_invoice.listProducts = getListProductByIdInvoice(tmp_invoice.id);
+
+        switch (tmp_invoice.typeInvoice.id)
+        {
+        case 1:
+        {
+            tmp_invoice.storageRecipient = getStorageById(query.value(5).toInt());
+            tmp_invoice.provider = getProviderById(query.value(7).toInt());
+            tmp_invoice.note = query.value(10).toString();
+            tmp_invoice.storno = query.value(11).toInt();
+            tmp_invoice.userRecipient = getUserById(query.value(12).toInt());
+            break;
+        }
+        case 2:
+        {
+            tmp_invoice.storageSender = getStorageById(query.value(4).toInt());
+            tmp_invoice.userSender = getUserById(query.value(6).toInt());
+            tmp_invoice.client = getClientById(query.value(8).toInt());
+            tmp_invoice.paymentType = getPaymentTypeById(query.value(9).toInt());
+            tmp_invoice.note = query.value(10).toString();
+            tmp_invoice.storno = query.value(11).toInt();
+            break;
+        }
+        case 3:
+        {
+            tmp_invoice.storageSender = getStorageById(query.value(4).toInt());
+            tmp_invoice.storageRecipient = getStorageById(query.value(5).toInt());
+            tmp_invoice.userSender = getUserById(query.value(6).toInt());
+            tmp_invoice.userRecipient = getUserById(query.value(12).toInt());
+            tmp_invoice.note = query.value(10).toString();
+            tmp_invoice.storno = query.value(11).toInt();
+            break;
+        }
+        }
+
+        listInvoices.push_back(tmp_invoice);
+    }
+
+    return listInvoices;
+}
+
+QList <invoice> DatabaseModule::getListInvoiceByTypeAvialableConnectedUser(int idType)
+{
+    QList <invoice> listInvoices;
+
+    for(int i = 0; i < connectedUser.listStorages.size(); i++)
+        listInvoices += getListInvoiceByType(idType, connectedUser.listStorages.at(i).id);
+
+    return listInvoices;
 }

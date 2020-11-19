@@ -20,6 +20,8 @@ public:
     explicit authorization_dialog(QWidget *parent = nullptr);
     bool Connected();
     QSqlDatabase getConnection();
+    QString getLogin();
+    QString getPassword();
     ~authorization_dialog();
 private slots:
     void slot_pushButton_login_clicked();

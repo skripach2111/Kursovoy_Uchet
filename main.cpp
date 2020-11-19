@@ -12,7 +12,8 @@ int main(int argc, char *argv[])
     auth_dialog->exec();
     if(auth_dialog->Connected())
     {
-        auth_dialog->close();
+        MWindow->setConnection(auth_dialog->getConnection(), auth_dialog->getLogin(), auth_dialog->getPassword());
+        MWindow->show();
         return a.exec();
     }
     else

@@ -122,7 +122,7 @@
          </widget>
         </item>
         <item row="0" column="8">
-         <widget class="QPushButton" name="pushButton_Clients">
+         <widget class="QPushButton" name="pushButton_MainClients">
           <property name="minimumSize">
            <size>
             <width>120</width>
@@ -155,7 +155,7 @@
          </spacer>
         </item>
         <item row="0" column="7">
-         <widget class="QPushButton" name="pushButton_Providers">
+         <widget class="QPushButton" name="pushButton_MainProviders">
           <property name="minimumSize">
            <size>
             <width>120</width>
@@ -249,7 +249,7 @@
        </font>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page_Products">
        <layout class="QGridLayout" name="gridLayout_20">
@@ -386,7 +386,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget_Invoices">
           <property name="currentIndex">
-           <number>4</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_comingInvoices">
            <attribute name="title">
@@ -667,7 +667,7 @@
                </font>
               </property>
               <property name="currentIndex">
-               <number>1</number>
+               <number>0</number>
               </property>
               <property name="tabSpacing">
                <number>0</number>
@@ -2342,8 +2342,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1106</width>
-             <height>318</height>
+             <width>204</width>
+             <height>140</height>
             </rect>
            </property>
            <attribute name="label">
@@ -2607,8 +2607,8 @@
                       <property name="geometry">
                        <rect>
                         <x>0</x>
-                        <y>-108</y>
-                        <width>517</width>
+                        <y>0</y>
+                        <width>309</width>
                         <height>356</height>
                        </rect>
                       </property>
@@ -2862,8 +2862,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1106</width>
-             <height>318</height>
+             <width>212</width>
+             <height>140</height>
             </rect>
            </property>
            <attribute name="label">
@@ -3118,8 +3118,8 @@
                       <property name="geometry">
                        <rect>
                         <x>0</x>
-                        <y>-108</y>
-                        <width>517</width>
+                        <y>0</y>
+                        <width>282</width>
                         <height>356</height>
                        </rect>
                       </property>
@@ -3328,8 +3328,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1106</width>
-             <height>318</height>
+             <width>197</width>
+             <height>150</height>
             </rect>
            </property>
            <attribute name="label">
@@ -3550,8 +3550,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1106</width>
-             <height>318</height>
+             <width>212</width>
+             <height>140</height>
             </rect>
            </property>
            <attribute name="label">
@@ -3624,8 +3624,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>531</width>
-                        <height>248</height>
+                        <width>219</width>
+                        <height>163</height>
                        </rect>
                       </property>
                       <layout class="QGridLayout" name="gridLayout_47">
@@ -3824,8 +3824,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>531</width>
-                        <height>248</height>
+                        <width>214</width>
+                        <height>141</height>
                        </rect>
                       </property>
                       <layout class="QGridLayout" name="gridLayout_48">

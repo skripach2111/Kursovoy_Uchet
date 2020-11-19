@@ -61,3 +61,13 @@ QSqlDatabase authorization_dialog::getConnection()
 {
     return db;
 }
+
+QString authorization_dialog::getLogin()
+{
+    return ui->lineEdit_login->text();
+}
+
+QString authorization_dialog::getPassword()
+{
+    return ui->lineEdit_password->text();
+}

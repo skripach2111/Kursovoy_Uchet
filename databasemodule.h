@@ -51,6 +51,10 @@ public:
 
     QList <position> getListPositions();
 
+    QList <client> getListClients();
+
+    QList <provider> getListProviders();
+
     QList <invoice> getListInvoiceByType(int idType);
     QList <invoice> getListInvoiceByType(int idType, int idStorage);
     QList <invoice> getListInvoiceByTypeAvialableConnectedUser(int idType);

@@ -5,6 +5,9 @@
 #include "databasemodule.h"
 #include "addorsetstorage_dialog.h"
 #include "addorsetuser_dialog.h"
+#include "addorsetclient_dialog.h"
+#include "addorsetprovider_dialog.h"
+#include "addorsetproduct_dialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,6 +32,9 @@ public:
     void updateStornedInvoicesTable();
     void updateStorageTable();
     void updateUserTable();
+    void updateClientTable();
+    void updateProviderTable();
+    void updateProductTable();
 
 private slots:
     void slot_pushButton_MainInvoices_clicked();
@@ -40,6 +46,9 @@ private slots:
     void slot_pushButton_MainUsers_clicked();
     void slot_pushButton_AddStorage_clicked();
     void slot_pushButton_AddUser_clicked();
+    void slot_pushButton_AddClient_clicked();
+    void slot_pushButton_AddProvider_clicked();
+    void slot_pushButton_AddProduct_clicked();
 
 private:
     Ui::MainWindow *ui;

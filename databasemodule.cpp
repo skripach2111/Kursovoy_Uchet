@@ -18,7 +18,7 @@ int DatabaseModule::getPrivileges()
     db.open();
 
     QSqlQuery query;
-    query.prepare("SELECT id, PIB, phonenumber, idPosition FROM users WHERE login = :login");
+    query.prepare("SELECT id FROM users WHERE login = :login");
     query.bindValue(":login", QVariant(connectedUser.login).toString());
     query.exec();
 
@@ -27,32 +27,7 @@ int DatabaseModule::getPrivileges()
     else
     {
         query.next();
-        connectedUser.id = query.value(0).toInt();
-        connectedUser.pib = query.value(1).toString();
-        connectedUser.phonenumber = query.value(2).toString();
-        connectedUser.position.id = query.value(3).toInt();
-
-        query.prepare("SELECT * FROM storage WHERE :id = (SELECT * FROM user_storage)");
-        query.bindValue(":id", connectedUser.id);
-        query.exec();
-
-        while(query.next())
-        {
-            tmp_storage.id = query.value(0).toInt();
-            tmp_storage.title = query.value(1).toString();
-            tmp_storage.city = query.value(2).toString();
-            tmp_storage.address = query.value(3).toString();
-            tmp_storage.capacity = query.value(4).toFloat();
-
-            connectedUser.listStorages.push_back(tmp_storage);
-        }
-
-        query.prepare("SELECT title FROM storage WHERE :id = id");
-        query.bindValue(":id", connectedUser.position.id);
-        query.exec();
-        query.next();
-
-        connectedUser.position.title = query.value(0).toString();
+        connectedUser = getUserById(query.value(0).toInt());
     }
 
     return connectedUser.position.id;
@@ -202,8 +177,8 @@ resultQuery DatabaseModule::addProduct(product product)
 
     QSqlQuery query;
     query.prepare("SELECT id FROM product WHERE title = :title OR nomenclature = :nomenclature");
-    query.bindValue(":title", QVariant(product.title).toString());
-    query.bindValue(":nomenclature", QVariant(product.nomenclature).toString());
+    query.bindValue(":title", product.title);
+    query.bindValue(":nomenclature", product.nomenclature);
     query.exec();
 
     if(query.size())
@@ -214,10 +189,10 @@ resultQuery DatabaseModule::addProduct(product product)
     }
     else
     {
-        query.prepare("INSERT INTO storage (title, measuring, nomenclature, price) VALUES(:title, :measuring, :nomenclature, :price)");
-        query.bindValue(":title", QVariant(product.title).toString());
-        query.bindValue(":measuring", QVariant(product.measuring).toString());
-        query.bindValue(":nomenclature", QVariant(product.nomenclature).toString());
+        query.prepare("INSERT INTO product (title, measuring, nomenclature, price) VALUES(:title, :measuring, :nomenclature, :price)");
+        query.bindValue(":title", product.title);
+        query.bindValue(":measuring", product.measuring);
+        query.bindValue(":nomenclature", product.nomenclature);
         query.bindValue(":price", product.price);
         query.exec();
 
@@ -362,6 +337,14 @@ user DatabaseModule::getUserById(int id)
     us.pib = query.value(3).toString();
     us.phonenumber = query.value(4).toString();
     us.position = getPositionById(query.value(5).toInt());
+
+    QSqlQuery qu2;
+    qu2.prepare("SELECT idStorage FROM user_storage WHERE idUser = :idUser");
+    qu2.bindValue(":idUser", us.id);
+    qu2.exec();
+
+    while(qu2.next())
+        us.listStorages.push_back(getStorageById(qu2.value(0).toInt()));
 
     return us;
 }
@@ -660,29 +643,37 @@ QList <storage> DatabaseModule::getListStorages()
     QList <storage> listStorages;
     storage st;
 
+    db.open();
+
     QSqlQuery qu;
-    qu.prepare("SELECT * FROM storage");
-    qu.exec();
-
     QSqlQuery qu2;
-    qu2.prepare("SELECT sum(quantity) FROM product_in_storage WHERE idStorage = :idStorage");
 
-    while(qu.next())
+    for(int i = 0; i < connectedUser.listStorages.size(); i++)
     {
-        st.id = qu.value(0).toInt();
-        st.title = qu.value(1).toString();
-        st.city = qu.value(2).toString();
-        st.address = qu.value(3).toString();
-        st.capacity = qu.value(4).toInt();
+        qu.prepare("SELECT * FROM storage WHERE id = :idStorage");
+        qu.bindValue(":idStorage", connectedUser.listStorages.at(i).id);
+        //qu.prepare("SELECT * FROM storage");
+        qu.exec();
 
-        qu2.bindValue(":idStorage", st.id);
-        qu2.exec();
-        qu2.next();
+        qu2.prepare("SELECT sum(quantity) FROM product_in_storage WHERE idStorage = :idStorage");
 
-        st.workload = qu2.value(0).toInt();
-        st.listProducts = getListProductByIdStorage(st.id);
+        while(qu.next())
+        {
+            st.id = qu.value(0).toInt();
+            st.title = qu.value(1).toString();
+            st.city = qu.value(2).toString();
+            st.address = qu.value(3).toString();
+            st.capacity = qu.value(4).toInt();
 
-        listStorages.push_back(st);
+            qu2.bindValue(":idStorage", st.id);
+            qu2.exec();
+            qu2.next();
+
+            st.workload = qu2.value(0).toInt();
+            st.listProducts = getListProductByIdStorage(st.id);
+
+            listStorages.push_back(st);
+        }
     }
 
     return listStorages;
@@ -726,8 +717,61 @@ QList <user> DatabaseModule::getListUsers()
         us.phonenumber = qu.value(4).toString();
         us.position = getPositionById(qu.value(5).toInt());
 
+        QSqlQuery qu2;
+        qu2.prepare("SELECT idStorage FROM user_storage WHERE idUser = :idUser");
+        qu2.bindValue(":idUser", us.id);
+        qu2.exec();
+
+        while(qu2.next())
+            us.listStorages.push_back(getStorageById(qu2.value(0).toInt()));
+
         listUsers.push_back(us);
     }
 
     return listUsers;
+}
+
+QList <client> DatabaseModule::getListClients()
+{
+    QList <client> listClients;
+    client cl;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM clients");
+    qu.exec();
+
+    while(qu.next())
+    {
+        cl.id = qu.value(0).toInt();
+        cl.pib = qu.value(1).toString();
+        cl.phonenumber = qu.value(2).toString();
+        cl.title = qu.value(3).toString();
+
+        listClients.push_back(cl);
+    }
+
+    return listClients;
+}
+
+QList <provider> DatabaseModule::getListProviders()
+{
+    QList <provider> listProviders;
+    provider pr;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM providers");
+    qu.exec();
+
+    while(qu.next())
+    {
+        pr.id = qu.value(0).toInt();
+        pr.title = qu.value(1).toString();
+        pr.pib = qu.value(2).toString();
+        pr.phonenumber = qu.value(3).toString();
+        pr.requisites = qu.value(4).toString();
+
+        listProviders.push_back(pr);
+    }
+
+    return listProviders;
 }

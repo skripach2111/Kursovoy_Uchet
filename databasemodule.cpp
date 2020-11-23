@@ -209,21 +209,30 @@ resultQuery DatabaseModule::addInvoice(invoice invoice)
 
     switch (invoice.typeInvoice.id)
     {
-    case 0:
+    case 1:
     {
+        qDebug() << invoice.sum << invoice.data << invoice.typeInvoice.id << invoice.storageRecipient.id << invoice.provider.id << invoice.note << invoice.userRecipient.id;
+
         query.prepare("INSERT INTO invoices (sum, date, idTypeInvoice, idStorageRecipient, idProvider, note, storno, idUserRecipient) VALUES(:sum, :date, :idTypeInvoice, :idStorageRecipient, :idProvider, :note, 0, :idUserRecipient)");
         query.bindValue(":sum", invoice.sum);
         query.bindValue(":date", invoice.data);
         query.bindValue(":idTypeInvoice", invoice.typeInvoice.id);
         query.bindValue(":idStorageRecipient", invoice.storageRecipient.id);
         query.bindValue(":idProvider", invoice.provider.id);
-        query.bindValue(":note", QVariant(invoice.note).toString());
+        query.bindValue(":note", invoice.note);
         query.bindValue(":idUserRecipient", invoice.userRecipient.id);
         query.exec();
+
+        query.prepare("SELECT max(id) FROM invoices");
+        query.exec();
+        query.next();
+        invoice.id = query.value(0).toInt();
 
         query.prepare("INSERT INTO product_in_invoice VALUES(:idInvoice, :idProduct, :price, :quantity, :accounting_price)");
         for(int i = 0; i < invoice.listProducts.size(); i++)
         {
+            qDebug() << invoice.id << invoice.listProducts.at(i).id << invoice.listProducts.at(i).priceSender << invoice.listProducts.at(i).quantity << invoice.listProducts.at(i).quantity << invoice.listProducts.at(i).price;
+
             query.bindValue(":idInvoice", invoice.id);
             query.bindValue(":idProduct", invoice.listProducts.at(i).id);
             query.bindValue(":price", invoice.listProducts.at(i).priceSender);
@@ -232,27 +241,13 @@ resultQuery DatabaseModule::addInvoice(invoice invoice)
             query.exec();
         }
 
-        break;
-    }
-    case 1:
-    {
-        query.prepare("INSERT INTO invoices (sum, date, idTypeInvoice, idStorageSender, idUserSender, idClient, note, storno, idPaymentType) VALUES(:sum, :date, :idTypeInvoice, :idStorageSender, :idClient, :note, 0, :idPaymentType)");
-        query.bindValue(":sum", invoice.sum);
-        query.bindValue(":date", invoice.data);
-        query.bindValue(":idTypeInvoice", invoice.typeInvoice.id);
-        query.bindValue(":idStorageSender", invoice.storageSender.id);
-        query.bindValue(":idClient", invoice.client.id);
-        query.bindValue(":note", QVariant(invoice.note).toString());
-        query.bindValue(":idUserSender", invoice.userSender.id);
-        query.bindValue(":idPaymentType", invoice.paymentType.id);
-        query.exec();
-
-        query.prepare("INSERT INTO product_in_invoice VALUES(:idInvoice, :idProduct, :price, :quantity)");
+        query.prepare("INSERT INTO product_in_storage VALUES(:idInvoice, :idProduct, :quantity)");
         for(int i = 0; i < invoice.listProducts.size(); i++)
         {
+            qDebug() << invoice.id << invoice.listProducts.at(i).id << invoice.listProducts.at(i).priceSender << invoice.listProducts.at(i).quantity << invoice.listProducts.at(i).quantity << invoice.listProducts.at(i).price;
+
             query.bindValue(":idInvoice", invoice.id);
             query.bindValue(":idProduct", invoice.listProducts.at(i).id);
-            query.bindValue(":price", invoice.listProducts.at(i).priceSender);
             query.bindValue(":quantity", invoice.listProducts.at(i).quantity);
             query.exec();
         }
@@ -261,6 +256,52 @@ resultQuery DatabaseModule::addInvoice(invoice invoice)
     }
     case 2:
     {
+        qDebug() << invoice.sum << invoice.data << invoice.typeInvoice.id << invoice.storageSender.id << invoice.client.id << invoice.note << invoice.userSender.id << invoice.paymentType.id;
+
+        query.prepare("INSERT INTO invoices (sum, date, idTypeInvoice, idStorageSender, idUserSender, idClient, note, storno, idPaymentType) VALUES(:sum, :date, :idTypeInvoice, :idStorageSender, :idUserSender, :idClient, :note, :storno, :idPaymentType)");
+        query.bindValue(":sum", invoice.sum);
+        query.bindValue(":date", invoice.data);
+        query.bindValue(":idTypeInvoice", invoice.typeInvoice.id);
+        query.bindValue(":idStorageSender", invoice.storageSender.id);
+        query.bindValue(":idUserSender", invoice.userSender.id);
+        query.bindValue(":idClient", invoice.client.id);
+        query.bindValue(":note", invoice.note);
+        query.bindValue(":storno", 0);
+        query.bindValue(":idPaymentType", invoice.paymentType.id);
+        query.exec();
+
+        qDebug() << query.lastError().driverText();
+
+        query.prepare("SELECT max(id) FROM invoices");
+        query.exec();
+        query.next();
+        invoice.id = query.value(0).toInt();
+
+        query.prepare("INSERT INTO product_in_invoice VALUES(:idInvoice, :idProduct, :price, :quantity)");
+        for(int i = 0; i < invoice.listProducts.size(); i++)
+        {
+            query.bindValue(":idInvoice", invoice.id);
+            query.bindValue(":idProduct", invoice.listProducts.at(i).id);
+            query.bindValue(":price", invoice.listProducts.at(i).price);
+            query.bindValue(":quantity", invoice.listProducts.at(i).quantity);
+            query.exec();
+        }
+
+        query.prepare("INSERT INTO product_in_storage VALUES(:idInvoice, :idProduct, :quantity)");
+        for(int i = 0; i < invoice.listProducts.size(); i++)
+        {
+            qDebug() << invoice.id << invoice.listProducts.at(i).id << invoice.listProducts.at(i).priceSender << invoice.listProducts.at(i).quantity << invoice.listProducts.at(i).quantity << invoice.listProducts.at(i).price;
+
+            query.bindValue(":idInvoice", invoice.id);
+            query.bindValue(":idProduct", invoice.listProducts.at(i).id);
+            query.bindValue(":quantity", invoice.listProducts.at(i).quantity);
+            query.exec();
+        }
+
+        break;
+    }
+    case 3:
+    {
         query.prepare("INSERT INTO invoices (date, idTypeInvoice, idStorageSender, idUserSender, idStorageRecipient, idUserRecipient, note, storno) VALUES(:date, :idTypeInvoice, :idStorageSender, :idUserSender, :idStorageRecipient, :idUserRecipient, :note, 0)");
         query.bindValue(":date", invoice.data);
         query.bindValue(":idTypeInvoice", invoice.typeInvoice.id);
@@ -268,12 +309,28 @@ resultQuery DatabaseModule::addInvoice(invoice invoice)
         query.bindValue(":idStorageSender", invoice.storageSender.id);
         query.bindValue(":idUserRecipient", invoice.userRecipient.id);
         query.bindValue(":idStorageRecipient", invoice.storageRecipient.id);
-        query.bindValue(":note", QVariant(invoice.note).toString());
+        query.bindValue(":note", invoice.note);
         query.exec();
+
+        query.prepare("SELECT max(id) FROM invoices");
+        query.exec();
+        query.next();
+        invoice.id = query.value(0).toInt();
 
         query.prepare("INSERT INTO product_in_invoice VALUES(:idInvoice, :idProduct, :quantity)");
         for(int i = 0; i < invoice.listProducts.size(); i++)
         {
+            query.bindValue(":idInvoice", invoice.id);
+            query.bindValue(":idProduct", invoice.listProducts.at(i).id);
+            query.bindValue(":quantity", invoice.listProducts.at(i).quantity);
+            query.exec();
+        }
+
+        query.prepare("INSERT INTO product_in_storage VALUES(:idInvoice, :idProduct, :quantity)");
+        for(int i = 0; i < invoice.listProducts.size(); i++)
+        {
+            qDebug() << invoice.id << invoice.listProducts.at(i).id << invoice.listProducts.at(i).priceSender << invoice.listProducts.at(i).quantity << invoice.listProducts.at(i).quantity << invoice.listProducts.at(i).price;
+
             query.bindValue(":idInvoice", invoice.id);
             query.bindValue(":idProduct", invoice.listProducts.at(i).id);
             query.bindValue(":quantity", invoice.listProducts.at(i).quantity);
@@ -354,7 +411,7 @@ provider DatabaseModule::getProviderById(int id)
     provider pr;
 
     QSqlQuery qu;
-    qu.prepare("SELECT * FROM users WHERE id = :id");
+    qu.prepare("SELECT * FROM providers WHERE id = :id");
     qu.bindValue(":id", id);
     qu.exec();
     qu.next();
@@ -774,4 +831,388 @@ QList <provider> DatabaseModule::getListProviders()
     }
 
     return listProviders;
+}
+
+QList <user> DatabaseModule::getListUsersByPosition(int id_position)
+{
+    QList <user> listUsers;
+    user us;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM users WHERE idPosition = :idPosition");
+    qu.bindValue(":idPosition", id_position);
+    qu.exec();
+
+    while(qu.next())
+    {
+        us.id = qu.value(0).toInt();
+        us.login = qu.value(1).toString();
+        us.password = qu.value(2).toString();
+        us.pib = qu.value(3).toString();
+        us.phonenumber = qu.value(4).toString();
+        us.position = getPositionById(qu.value(5).toInt());
+
+        QSqlQuery qu2;
+        qu2.prepare("SELECT idStorage FROM user_storage WHERE idUser = :idUser");
+        qu2.bindValue(":idUser", us.id);
+        qu2.exec();
+
+        while(qu2.next())
+            us.listStorages.push_back(getStorageById(qu2.value(0).toInt()));
+
+        listUsers.push_back(us);
+    }
+
+    return listUsers;
+}
+
+int DatabaseModule::getNextIdInvoice()
+{
+    int number;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT max(id) FROM invoices");
+    qu.exec();
+    qu.next();
+
+    number = qu.value(0).toInt();
+
+    return number;
+}
+
+QList <storno> DatabaseModule::getListStornedInvoicesAvialableSelectedUser()
+{
+    QList <storno> listStorno;
+    storno st;
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM storno");
+    qu.exec();
+
+    while(qu.next())
+    {
+        st.invoice = getInvoiceById(qu.value(0).toInt());
+        st.note = qu.value(1).toString();
+        listStorno.push_back(st);
+    }
+
+    return listStorno;
+}
+
+invoice DatabaseModule::getInvoiceById(int id)
+{
+    invoice tmp_invoice;
+
+    QSqlQuery query;
+    query.prepare("SELECT * FROM invoices WHERE id = :id");
+    query.bindValue(":id", id);
+    query.exec();
+    query.next();
+
+    tmp_invoice.id = query.value(0).toInt();
+    tmp_invoice.sum = query.value(1).toFloat();
+    tmp_invoice.data = query.value(2).toDate();
+    tmp_invoice.typeInvoice = getTypeInvoiceById(query.value(3).toInt());
+    tmp_invoice.listProducts = getListProductByIdInvoice(tmp_invoice.id);
+
+    switch (tmp_invoice.typeInvoice.id)
+    {
+    case 1:
+    {
+        tmp_invoice.storageRecipient = getStorageById(query.value(5).toInt());
+        tmp_invoice.provider = getProviderById(query.value(7).toInt());
+        tmp_invoice.note = query.value(10).toString();
+        tmp_invoice.storno = query.value(11).toInt();
+        tmp_invoice.userRecipient = getUserById(query.value(12).toInt());
+        break;
+    }
+    case 2:
+    {
+        tmp_invoice.storageSender = getStorageById(query.value(4).toInt());
+        tmp_invoice.userSender = getUserById(query.value(6).toInt());
+        tmp_invoice.client = getClientById(query.value(8).toInt());
+        tmp_invoice.paymentType = getPaymentTypeById(query.value(9).toInt());
+        tmp_invoice.note = query.value(10).toString();
+        tmp_invoice.storno = query.value(11).toInt();
+        break;
+    }
+    case 3:
+    {
+        tmp_invoice.storageSender = getStorageById(query.value(4).toInt());
+        tmp_invoice.storageRecipient = getStorageById(query.value(5).toInt());
+        tmp_invoice.userSender = getUserById(query.value(6).toInt());
+        tmp_invoice.userRecipient = getUserById(query.value(12).toInt());
+        tmp_invoice.note = query.value(10).toString();
+        tmp_invoice.storno = query.value(11).toInt();
+        break;
+    }
+    }
+
+    return tmp_invoice;
+}
+
+product DatabaseModule::getProductById(int id)
+{
+    product pr;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT * FROM product WHERE id = :id");
+    qu.bindValue(":id", id);
+    qu.exec();
+
+    while(qu.next())
+    {
+        pr.id = qu.value(0).toInt();
+        pr.title = qu.value(1).toString();
+        pr.measuring = qu.value(2).toString();
+        pr.nomenclature = qu.value(3).toString();
+        pr.price = qu.value(4).toFloat();
+    }
+
+    return pr;
+}
+
+resultQuery DatabaseModule::deleteClient(client client)
+{
+    resultQuery result;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT id FROM invoices WHERE idClient = :id");
+    qu.bindValue(":id", client.id);
+    qu.exec();
+    if(qu.size())
+    {
+        result.flag = false;
+        result.message = "Клиент фигурирует в накладных, удаление не возможно.";
+        return result;
+    }
+
+    qu.prepare("DELETE FROM clients WHERE id = :id");
+    qu.bindValue(":id", client.id);
+    qu.exec();
+
+    result.flag = true;
+    result.message = "Клиент удалён.";
+    return result;
+}
+
+resultQuery DatabaseModule::deleteProvider(provider provider)
+{
+    resultQuery result;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT id FROM invoices WHERE idProvider = :id");
+    qu.bindValue(":id", provider.id);
+    qu.exec();
+
+    if(qu.size())
+    {
+        result.flag = false;
+        result.message = "Поставщик фигурирует в накладных, удаление не возможно.";
+        return result;
+    }
+
+    qu.prepare("DELETE FROM providers WHERE id = :id");
+    qu.bindValue(":id", provider.id);
+    qu.exec();
+
+    result.flag = true;
+    result.message = "Поставщик удалён.";
+    return result;
+}
+
+resultQuery DatabaseModule::deleteUser(user user)
+{
+    resultQuery result;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT id FROM invoices WHERE idUserSender = :id OR idUserRecipient = :id");
+    qu.bindValue(":id", user.id);
+    qu.exec();
+    qu.next();
+    qDebug() << user.id << qu.value(0).toInt();
+
+    if(qu.size())
+    {
+        result.flag = false;
+        result.message = "Пользователь фигурирует в накладных, удаление не возможно.";
+        return result;
+    }
+
+    qu.prepare("DELETE FROM users WHERE id = :id");
+    qu.bindValue(":id", user.id);
+    qu.exec();
+
+    qu.prepare("DELETE FROM user_storage WHERE idUser = :id");
+    qu.bindValue(":id", user.id);
+    qu.exec();
+
+    result.flag = true;
+    result.message = "Пользователь удалён.";
+    return result;
+}
+
+resultQuery DatabaseModule::deleteStorage(storage storage)
+{
+    resultQuery result;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT id FROM invoices WHERE idStorageSender = :id OR idStorageRecipient = :id");
+    qu.bindValue(":id", storage.id);
+    qu.exec();
+    if(qu.size())
+    {
+        result.flag = false;
+        result.message = "Склад фигурирует в накладных, удаление не возможно.";
+        return result;
+    }
+
+    qu.prepare("DELETE FROM storage WHERE idStorage = :id");
+    qu.bindValue(":id", storage.id);
+    qu.exec();
+
+    qu.prepare("DELETE FROM user_storage WHERE id = :id");
+    qu.bindValue(":id", storage.id);
+    qu.exec();
+
+    result.flag = true;
+    result.message = "Склад удалён.";
+    return result;
+}
+
+resultQuery DatabaseModule::deleteProduct(product product)
+{
+    resultQuery result;
+
+    QSqlQuery qu;
+    qu.prepare("SELECT id FROM product_in_invoice WHERE idProduct = :id");
+    qu.bindValue(":id", product.id);
+    qu.exec();
+    if(qu.size())
+    {
+        result.flag = false;
+        result.message = "Товар фигурирует в накладных, удаление не возможно.";
+        return result;
+    }
+
+    qu.prepare("DELETE FROM product WHERE id = :id");
+    qu.bindValue(":id", product.id);
+    qu.exec();
+
+    qu.prepare("DELETE FROM storage WHERE id = :id");
+    qu.bindValue(":id", product.id);
+    qu.exec();
+
+    result.flag = true;
+    result.message = "Товар удалён.";
+    return result;
+}
+
+resultQuery DatabaseModule::setClient(client client)
+{
+    resultQuery result;
+
+    QSqlQuery query;
+    query.prepare("UPDATE clients SET PIB = :PIB, phonenumber = :phonenumber, title = :title WHERE id = :id");
+    query.bindValue(":id", client.id);
+    query.bindValue(":PIB", QVariant(client.pib).toString());
+    query.bindValue(":phonenumber", QVariant(client.phonenumber).toString());
+    query.bindValue(":title", QVariant(client.title).toString());
+    query.exec();
+
+    result.flag = true;
+    result.message = "Клиент изменён.";
+    return result;
+}
+
+resultQuery DatabaseModule::setProvider(provider provider)
+{
+    resultQuery result;
+
+    QSqlQuery query;
+
+        query.prepare("UPDATE providers SET title = :title, PIB = :PIB, phonenumber = :phonenumber, requisites = :requisites WHERE id = :id");
+        query.bindValue(":id", provider.id);
+        query.bindValue(":title", QVariant(provider.title).toString());
+        query.bindValue(":PIB", QVariant(provider.pib).toString());
+        query.bindValue(":phonenumber", QVariant(provider.phonenumber).toString());
+        query.bindValue(":requisites", QVariant(provider.requisites).toString());
+        query.exec();
+
+        result.flag = true;
+        result.message = "Поставщик изменён.";
+        return result;
+}
+
+resultQuery DatabaseModule::setProduct(product product)
+{
+    resultQuery result;
+
+    QSqlQuery query;
+
+        query.prepare("UPDATE product SET title = :title, measuring = :measuring, nomenclature = :nomenclature, price = :price WHERE id = :id");
+        query.bindValue(":id", product.id);
+        query.bindValue(":title", product.title);
+        query.bindValue(":measuring", product.measuring);
+        query.bindValue(":nomenclature", product.nomenclature);
+        query.bindValue(":price", product.price);
+        query.exec();
+
+        result.flag = true;
+        result.message = "Товар изменён.";
+        return result;
+}
+
+resultQuery DatabaseModule::setStorage(storage storage)
+{
+    resultQuery result;
+
+    QSqlQuery query;
+
+        query.prepare("UPDATE storage SET title = :title, city = :city, address = :address, capacity = :capacity WHERE id = :id");
+        query.bindValue(":id", storage.id);
+        query.bindValue(":title", QVariant(storage.title).toString());
+        query.bindValue(":city", QVariant(storage.city).toString());
+        query.bindValue(":address", QVariant(storage.address).toString());
+        query.bindValue(":capacity", storage.capacity);
+        query.exec();
+
+        result.flag = true;
+        result.message = "Склад изменён.";
+        return result;
+}
+
+resultQuery DatabaseModule::setUser(user user)
+{
+    resultQuery result;
+
+    QSqlQuery query;
+
+        query.prepare("UPDATE users SET login = :login, password = :password, PIB = :PIB, phonenumber = :phonenumber, idPosition = :idPosition WHERE id = :id");
+        query.bindValue(":id", user.id);
+        query.bindValue(":login", QVariant(user.login).toString());
+        query.bindValue(":password", QVariant(user.password).toString());
+        query.bindValue(":PIB", QVariant(user.pib).toString());
+        query.bindValue(":phonenumber", QVariant(user.phonenumber).toString());
+        query.bindValue(":idPosition", user.position.id);
+        query.exec();
+
+        if(user.listStorages.size() != 0)
+        {
+            query.prepare("DELETE FROM user_storage WHERE idUser = :id");
+            query.bindValue(":id", user.id);
+            query.exec();
+
+            query.prepare("INSERT user_storage VALUES(:idUser, :idStorage)");
+
+            for(int i = 0; i < user.listStorages.size(); i++)
+            {
+                query.bindValue(":idUser", user.id);
+                query.bindValue(":idStorage", user.listStorages.at(i).id);
+                query.exec();
+            }
+        }
+
+        result.flag = true;
+        result.message = "Пользователь изменён.";
+        return result;
 }

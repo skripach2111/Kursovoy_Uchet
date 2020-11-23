@@ -18,7 +18,11 @@ SOURCES += \
     addorsetstorage_dialog.cpp \
     addorsetuser_dialog.cpp \
     authorization_dialog.cpp \
+    chooseclient_dialog.cpp \
     chooseproduct_dialog.cpp \
+    chooseprovider_dialog.cpp \
+    choosestorage_dialog.cpp \
+    chooseuser_dialog.cpp \
     databasemodule.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -34,7 +38,11 @@ HEADERS += \
     addorsetstorage_dialog.h \
     addorsetuser_dialog.h \
     authorization_dialog.h \
+    chooseclient_dialog.h \
     chooseproduct_dialog.h \
+    chooseprovider_dialog.h \
+    choosestorage_dialog.h \
+    chooseuser_dialog.h \
     databasemodule.h \
     mainwindow.h \
     moreaboutinvoice_dialog.h \
@@ -50,7 +58,11 @@ FORMS += \
     addorsetstorage_dialog.ui \
     addorsetuser_dialog.ui \
     authorization_dialog.ui \
+    chooseclient_dialog.ui \
     chooseproduct_dialog.ui \
+    chooseprovider_dialog.ui \
+    choosestorage_dialog.ui \
+    chooseuser_dialog.ui \
     mainwindow.ui \
     moreaboutinvoice_dialog.ui \
     printpreview_dialog.ui

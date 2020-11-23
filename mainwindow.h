@@ -8,6 +8,7 @@
 #include "addorsetclient_dialog.h"
 #include "addorsetprovider_dialog.h"
 #include "addorsetproduct_dialog.h"
+#include "addinvoice_dialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -49,6 +50,20 @@ private slots:
     void slot_pushButton_AddClient_clicked();
     void slot_pushButton_AddProvider_clicked();
     void slot_pushButton_AddProduct_clicked();
+    void slot_pushButton_AddInvoice_clicked();
+    void slot_pushButton_tabWidget_Invoices_currentChanget(int number);
+
+    void slot_pushButton_SetStorage_clicked();
+    void slot_pushButton_SetUser_clicked();
+    void slot_pushButton_SetClient_clicked();
+    void slot_pushButton_SetProvider_clicked();
+    void slot_pushButton_SetProduct_clicked();
+
+    void slot_pushButton_RemoveStorage_clicked();
+    void slot_pushButton_RemoveUser_clicked();
+    void slot_pushButton_RemoveClient_clicked();
+    void slot_pushButton_RemoveProvider_clicked();
+    void slot_pushButton_RemoveProduct_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -6,6 +6,7 @@
 #include <QSqlQuery>
 #include <QVariant>
 #include <QDebug>
+#include <QSqlError>
 
 struct resultQuery
 {
@@ -32,6 +33,22 @@ public:
     resultQuery addProvider(provider provider);
     resultQuery addClient(client client);
 
+    resultQuery setInvoice(invoice invoice);
+    resultQuery setStorage(storage storage);
+    resultQuery setProduct(product product);
+
+    resultQuery setUser(user user);
+    resultQuery setProvider(provider provider);
+    resultQuery setClient(client client);
+
+    resultQuery deleteInvoice(invoice invoice);
+    resultQuery deleteStorage(storage storage);
+    resultQuery deleteProduct(product product);
+
+    resultQuery deleteUser(user user);
+    resultQuery deleteProvider(provider provider);
+    resultQuery deleteClient(client client);
+
     invoice getInvoiceById(int id);
     user getUserById(int id);
     client getClientById(int id);
@@ -42,6 +59,8 @@ public:
     storno getStornoByIdInvoice(int idInvoice);
     position getPositionById(int id);
     product getProductById(int id);
+
+    int getNextIdInvoice();
 
     QList <product> getListProductByIdStorage(int idStorage);
     QList <product> getListProductByIdInvoice(int idInvoice);
@@ -58,9 +77,12 @@ public:
     QList <invoice> getListInvoiceByType(int idType);
     QList <invoice> getListInvoiceByType(int idType, int idStorage);
     QList <invoice> getListInvoiceByTypeAvialableConnectedUser(int idType);
-    QList <storno> getStornedInvoices();
+
+    QList <storno> getListStornedInvoices();
+    QList <storno> getListStornedInvoicesAvialableSelectedUser();
 
     QList <user> getListUsers();
+    QList <user> getListUsersByPosition(int id_position);
 };
 
 #endif // DATABASEMODULE_H

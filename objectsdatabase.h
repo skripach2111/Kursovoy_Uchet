@@ -6,7 +6,7 @@
 
 struct product
 {
-    int id;
+    int id = 0;
     QString nomenclature;
     QString title;
     QString measuring;
@@ -17,13 +17,13 @@ struct product
 
 struct typeInvoice
 {
-    int id;
+    int id = 0;
     QString title;
 };
 
 struct storage
 {
-    int id;
+    int id = 0;
     QString title;
     QString city;
     QString address;
@@ -35,7 +35,7 @@ struct storage
 
 struct client
 {
-    int id;
+    int id = 0;
     QString title;
     QString pib;
     QString phonenumber;
@@ -43,7 +43,7 @@ struct client
 
 struct provider
 {
-    int id;
+    int id = 0;
     QString title;
     QString pib;
     QString phonenumber;
@@ -52,13 +52,13 @@ struct provider
 
 struct position
 {
-    int id;
+    int id = 0;
     QString title;
 };
 
 struct user
 {
-    int id;
+    int id = 0;
     QString login;
     QString password;
     QString pib;
@@ -70,13 +70,13 @@ struct user
 
 struct paymenttype
 {
-    int id;
+    int id = 0;
     QString title;
 };
 
 struct invoice
 {
-    int id;
+    int id = 0;
     float sum;
     QDate data;
     int storno;

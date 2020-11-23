@@ -20,6 +20,21 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_AddClient, SIGNAL(clicked()), this, SLOT(slot_pushButton_AddClient_clicked()));
     connect(ui->pushButton_AddProvider, SIGNAL(clicked()), this, SLOT(slot_pushButton_AddProvider_clicked()));
     connect(ui->pushButton_AddProduct, SIGNAL(clicked()), this, SLOT(slot_pushButton_AddProduct_clicked()));
+    connect(ui->pushButton_AddInvoice, SIGNAL(clicked()), this, SLOT(slot_pushButton_AddInvoice_clicked()));
+
+    connect(ui->pushButton_SetStorage, SIGNAL(clicked()), this, SLOT(slot_pushButton_SetStorage_clicked()));
+    connect(ui->pushButton_SetUser, SIGNAL(clicked()), this, SLOT(slot_pushButton_SetUser_clicked()));
+    connect(ui->pushButton_SetClient, SIGNAL(clicked()), this, SLOT(slot_pushButton_SetClient_clicked()));
+    connect(ui->pushButton_SetProvider, SIGNAL(clicked()), this, SLOT(slot_pushButton_SetProvider_clicked()));
+    connect(ui->pushButton_SetProduct, SIGNAL(clicked()), this, SLOT(slot_pushButton_SetProduct_clicked()));
+
+    connect(ui->pushButton_RemoveStorage, SIGNAL(clicked()), this, SLOT(slot_pushButton_RemoveStorage_clicked()));
+    connect(ui->pushButton_RemoveUser, SIGNAL(clicked()), this, SLOT(slot_pushButton_RemoveUser_clicked()));
+    connect(ui->pushButton_RemoveClient, SIGNAL(clicked()), this, SLOT(slot_pushButton_RemoveClient_clicked()));
+    connect(ui->pushButton_RemoveProvider, SIGNAL(clicked()), this, SLOT(slot_pushButton_RemoveProvider_clicked()));
+    connect(ui->pushButton_RemoveProduct, SIGNAL(clicked()), this, SLOT(slot_pushButton_RemoveProduct_clicked()));
+
+    connect(ui->tabWidget_Invoices, SIGNAL(currentChanged(int)), this, SLOT(slot_pushButton_tabWidget_Invoices_currentChanget(int)));
 }
 
 MainWindow::~MainWindow()
@@ -47,17 +62,17 @@ void MainWindow::setWorkspaceForAccountant()
 void MainWindow::updateComingInvoicesTable()
 {
     QList <invoice> listInvoices;
-    listInvoices = db.getListInvoiceByTypeAvialableConnectedUser(1);
+    listInvoices = db.getListInvoiceByType(1);
     ui->tableWidget_comingInvoices->setRowCount(0);
 
     for(int i = 0; i < listInvoices.size(); i++)
     {
         ui->tableWidget_comingInvoices->insertRow(ui->tableWidget_comingInvoices->rowCount());
-        ui->tableWidget_comingInvoices->setItem(ui->tableWidget_comingInvoices->rowCount()-1, 0, new QTableWidgetItem(listInvoices.at(i).id));
-        ui->tableWidget_comingInvoices->setItem(ui->tableWidget_comingInvoices->rowCount()-1, 1, new QTableWidgetItem(listInvoices.at(i).provider.title));
+        ui->tableWidget_comingInvoices->setItem(ui->tableWidget_comingInvoices->rowCount()-1, 0, new QTableWidgetItem(QVariant(listInvoices.at(i).id).toString()));
+        ui->tableWidget_comingInvoices->setItem(ui->tableWidget_comingInvoices->rowCount()-1, 1, new QTableWidgetItem(QVariant(listInvoices.at(i).provider.title).toString()));
         ui->tableWidget_comingInvoices->setItem(ui->tableWidget_comingInvoices->rowCount()-1, 2, new QTableWidgetItem(listInvoices.at(i).storageRecipient.title));
-        ui->tableWidget_comingInvoices->setItem(ui->tableWidget_comingInvoices->rowCount()-1, 3, new QTableWidgetItem(listInvoices.at(i).sum));
-        ui->tableWidget_comingInvoices->setItem(ui->tableWidget_comingInvoices->rowCount()-1, 4, new QTableWidgetItem(listInvoices.at(i).data.toString()));
+        ui->tableWidget_comingInvoices->setItem(ui->tableWidget_comingInvoices->rowCount()-1, 3, new QTableWidgetItem(QVariant(listInvoices.at(i).sum).toString()));
+        ui->tableWidget_comingInvoices->setItem(ui->tableWidget_comingInvoices->rowCount()-1, 4, new QTableWidgetItem(listInvoices.at(i).data.toString(Qt::LocalDate)));
         ui->tableWidget_comingInvoices->setItem(ui->tableWidget_comingInvoices->rowCount()-1, 5, new QTableWidgetItem(listInvoices.at(i).userRecipient.pib));
     }
 }
@@ -105,6 +120,7 @@ void MainWindow::slot_pushButton_MainInvoices_clicked()
     ui->pushButton_MainReports->setChecked(false);
     ui->pushButton_MainStorages->setChecked(false);
     ui->pushButton_MainUsers->setChecked(false);
+    updateComingInvoicesTable();
 }
 
 void MainWindow::slot_pushButton_MainProducts_clicked()
@@ -340,12 +356,12 @@ void MainWindow::updateProductTable()
 
     for(int i = 0; i < listProducts.size(); i++)
     {
-        ui->tableWidget_Products->insertRow(ui->tableWidget_Providers->rowCount());
-        ui->tableWidget_Products->setItem(ui->tableWidget_Providers->rowCount()-1, 0, new QTableWidgetItem(listProducts.at(i).nomenclature));
-        ui->tableWidget_Products->setItem(ui->tableWidget_Providers->rowCount()-1, 1, new QTableWidgetItem(listProducts.at(i).title));
-        ui->tableWidget_Products->setItem(ui->tableWidget_Providers->rowCount()-1, 2, new QTableWidgetItem(listProducts.at(i).measuring));
-        ui->tableWidget_Products->setItem(ui->tableWidget_Providers->rowCount()-1, 3, new QTableWidgetItem(listProducts.at(i).quantity));
-        ui->tableWidget_Products->setItem(ui->tableWidget_Providers->rowCount()-1, 3, new QTableWidgetItem(listProducts.at(i).price));
+        ui->tableWidget_Products->insertRow(ui->tableWidget_Products->rowCount());
+        ui->tableWidget_Products->setItem(ui->tableWidget_Products->rowCount()-1, 0, new QTableWidgetItem(listProducts.at(i).nomenclature));
+        ui->tableWidget_Products->setItem(ui->tableWidget_Products->rowCount()-1, 1, new QTableWidgetItem(listProducts.at(i).title));
+        ui->tableWidget_Products->setItem(ui->tableWidget_Products->rowCount()-1, 2, new QTableWidgetItem(listProducts.at(i).measuring));
+        ui->tableWidget_Products->setItem(ui->tableWidget_Products->rowCount()-1, 3, new QTableWidgetItem(listProducts.at(i).quantity));
+        ui->tableWidget_Products->setItem(ui->tableWidget_Products->rowCount()-1, 4, new QTableWidgetItem(listProducts.at(i).price));
     }
 }
 
@@ -361,4 +377,207 @@ void MainWindow::slot_pushButton_AddProduct_clicked()
         db.addProduct(pr);
         updateProductTable();
     }
+}
+
+void MainWindow::slot_pushButton_AddInvoice_clicked()
+{
+    AddInvoice_Dialog AddDialog;
+    AddDialog.setDialog(db);
+    AddDialog.exec();
+    if(AddDialog.getInvoice().listProducts.size() > 0)
+    {
+        db.addInvoice(AddDialog.getInvoice());
+        updateComingInvoicesTable();
+        //updateSenderInvoicesTable();
+        //updateMovingInvoicesTable();
+        //updateStornedInvoicesTable();
+    }
+}
+
+void MainWindow::slot_pushButton_tabWidget_Invoices_currentChanget(int number)
+{
+    switch (ui->tabWidget_Invoices->currentIndex())
+    {
+    case 0:
+    {
+        updateComingInvoicesTable();
+        break;
+    }
+    case 1:
+    {
+        updateSenderInvoicesTable();
+        break;
+    }
+    case 2:
+    {
+        updateMovingInvoicesTable();
+        break;
+    }
+    case 3:
+    {
+        updateStornedInvoicesTable();
+        break;
+    }
+    }
+}
+
+void MainWindow::updateSenderInvoicesTable()
+{
+    QList <invoice> listInvoices;
+    listInvoices = db.getListInvoiceByTypeAvialableConnectedUser(2);
+    ui->tableWidget_careInvoices->setRowCount(0);
+
+    for(int i = 0; i < listInvoices.size(); i++)
+    {
+        ui->tableWidget_careInvoices->insertRow(ui->tableWidget_careInvoices->rowCount());
+        ui->tableWidget_careInvoices->setItem(ui->tableWidget_careInvoices->rowCount()-1, 0, new QTableWidgetItem(QVariant(listInvoices.at(i).id).toString()));
+        ui->tableWidget_careInvoices->setItem(ui->tableWidget_careInvoices->rowCount()-1, 1, new QTableWidgetItem(listInvoices.at(i).storageSender.title));
+        ui->tableWidget_careInvoices->setItem(ui->tableWidget_careInvoices->rowCount()-1, 2, new QTableWidgetItem(listInvoices.at(i).userSender.pib));
+        ui->tableWidget_careInvoices->setItem(ui->tableWidget_careInvoices->rowCount()-1, 3, new QTableWidgetItem(listInvoices.at(i).client.title));
+        ui->tableWidget_careInvoices->setItem(ui->tableWidget_careInvoices->rowCount()-1, 4, new QTableWidgetItem(QVariant(listInvoices.at(i).sum).toString()));
+        ui->tableWidget_careInvoices->setItem(ui->tableWidget_careInvoices->rowCount()-1, 5, new QTableWidgetItem(listInvoices.at(i).data.toString(Qt::LocalDate)));
+    }
+}
+
+void MainWindow::updateMovingInvoicesTable()
+{
+    QList <invoice> listInvoices;
+    listInvoices = db.getListInvoiceByType(3);
+    ui->tableWidget_movingInvoices->setRowCount(0);
+
+    for(int i = 0; i < listInvoices.size(); i++)
+    {
+        ui->tableWidget_movingInvoices->insertRow(ui->tableWidget_movingInvoices->rowCount());
+        ui->tableWidget_movingInvoices->setItem(ui->tableWidget_movingInvoices->rowCount()-1, 0, new QTableWidgetItem(QVariant(listInvoices.at(i).id).toString()));
+        ui->tableWidget_movingInvoices->setItem(ui->tableWidget_movingInvoices->rowCount()-1, 1, new QTableWidgetItem(listInvoices.at(i).storageRecipient.title));
+        ui->tableWidget_movingInvoices->setItem(ui->tableWidget_movingInvoices->rowCount()-1, 2, new QTableWidgetItem(listInvoices.at(i).storageSender.title));
+        ui->tableWidget_movingInvoices->setItem(ui->tableWidget_movingInvoices->rowCount()-1, 3, new QTableWidgetItem(listInvoices.at(i).userSender.pib));
+        ui->tableWidget_movingInvoices->setItem(ui->tableWidget_movingInvoices->rowCount()-1, 4, new QTableWidgetItem(listInvoices.at(i).userRecipient.pib));
+        ui->tableWidget_movingInvoices->setItem(ui->tableWidget_movingInvoices->rowCount()-1, 5, new QTableWidgetItem(listInvoices.at(i).data.toString(Qt::LocalDate)));
+    }
+}
+
+void MainWindow::updateStornedInvoicesTable()
+{
+    QList <storno> listInvoices;
+    listInvoices = db.getListStornedInvoicesAvialableSelectedUser();
+    ui->tableWidget_stornoInvoices->setRowCount(0);
+
+    for(int i = 0; i < listInvoices.size(); i++)
+    {
+        ui->tableWidget_stornoInvoices->insertRow(ui->tableWidget_stornoInvoices->rowCount());
+        ui->tableWidget_stornoInvoices->setItem(ui->tableWidget_stornoInvoices->rowCount()-1, 0, new QTableWidgetItem(listInvoices.at(i).invoice.id));
+        ui->tableWidget_stornoInvoices->setItem(ui->tableWidget_stornoInvoices->rowCount()-1, 1, new QTableWidgetItem(listInvoices.at(i).invoice.typeInvoice.title));
+        ui->tableWidget_stornoInvoices->setItem(ui->tableWidget_stornoInvoices->rowCount()-1, 2, new QTableWidgetItem(listInvoices.at(i).invoice.data.toString(Qt::LocalDate)));
+        ui->tableWidget_stornoInvoices->setItem(ui->tableWidget_stornoInvoices->rowCount()-1, 3, new QTableWidgetItem(listInvoices.at(i).note));
+    }
+}
+
+void MainWindow::slot_pushButton_SetStorage_clicked()
+{
+    AddOrSetStorage_Dialog AddDialog;
+    storage st;
+    AddDialog.setStorage(db.getStorageById(ui->tableWidget_Storages->currentRow()+1));
+    AddDialog.exec();
+    st = AddDialog.getStorage();
+    if(st.title.size() != 0)
+    {
+        db.setStorage(st);
+        updateStorageTable();
+    }
+}
+
+void MainWindow::slot_pushButton_SetUser_clicked()
+{
+    AddOrSetUser_Dialog AddDialog;
+    user us;
+    AddDialog.setConnection(db);
+    AddDialog.setUser(db.getUserById(ui->tableWidget_Users->currentRow()+3));
+    AddDialog.exec();
+    us = AddDialog.getUser();
+    if(us.login.size() != 0)
+    {
+        db.setUser(us);
+        updateUserTable();
+    }
+}
+
+void MainWindow::slot_pushButton_SetClient_clicked()
+{
+    AddOrSetClient_Dialog AddDialog;
+    client cl;
+    AddDialog.setClient(db.getClientById(ui->tableWidget_Clients->currentRow()+1));
+    AddDialog.exec();
+    cl = AddDialog.getClient();
+    if(cl.title.size() != 0)
+    {
+        db.setClient(cl);
+        updateClientTable();
+    }
+}
+
+void MainWindow::slot_pushButton_SetProvider_clicked()
+{
+    AddOrSetProvider_Dialog AddDialog;
+    provider pr;
+    AddDialog.setProvider(db.getProviderById(ui->tableWidget_Providers->currentRow()+1));
+    AddDialog.exec();
+    pr = AddDialog.getProvider();
+    if(pr.title.size() != 0)
+    {
+        db.setProvider(pr);
+        updateProviderTable();
+    }
+}
+
+void MainWindow::slot_pushButton_SetProduct_clicked()
+{
+    AddOrSetProduct_Dialog AddDialog;
+    product pr;
+    AddDialog.setProduct(db.getProductById(ui->tableWidget_Products->currentRow()+1));
+    AddDialog.exec();
+    pr = AddDialog.getProduct();
+
+    if(pr.title.size() != 0)
+    {
+        db.setProduct(pr);
+        updateProductTable();
+    }
+}
+
+void MainWindow::slot_pushButton_RemoveStorage_clicked()
+{
+    storage st = db.getStorageById(ui->tableWidget_Storages->currentRow()+1);
+    db.deleteStorage(st);
+    updateStorageTable();
+
+}
+
+void MainWindow::slot_pushButton_RemoveUser_clicked()
+{
+    user us = db.getUserById(ui->tableWidget_Users->currentRow()+3);
+    db.deleteUser(us);
+    updateUserTable();
+}
+
+void MainWindow::slot_pushButton_RemoveClient_clicked()
+{
+    client cl = db.getClientById(ui->tableWidget_Clients->currentRow()+1);
+    db.deleteClient(cl);
+    updateClientTable();
+}
+
+void MainWindow::slot_pushButton_RemoveProvider_clicked()
+{
+    provider pr = db.getProviderById(ui->tableWidget_Providers->currentRow()+1);
+    db.deleteProvider(pr);
+    updateProviderTable();
+    qDebug() << "delete";
+}
+
+void MainWindow::slot_pushButton_RemoveProduct_clicked()
+{
+    product pr = db.getProductById(ui->tableWidget_Products->currentRow()+1);
+    db.deleteProduct(pr);
+    updateProductTable();
 }

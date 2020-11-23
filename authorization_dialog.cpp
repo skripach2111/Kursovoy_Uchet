@@ -44,8 +44,9 @@ void authorization_dialog::slot_pushButton_login_clicked()
         query.prepare("SELECT password FROM users WHERE login = :l");
         query.bindValue(":l", ui->lineEdit_login->text());
         query.exec();
+        query.next();
 
-        if(query.size() == 0)
+        if(query.size() == 0 || query.value(0).toString() != ui->lineEdit_password->text())
             ui->label_error->setText("Ошибка! Неверный логин или пароль.");
         else
         {

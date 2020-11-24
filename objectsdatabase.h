@@ -12,7 +12,7 @@ struct product
     QString measuring;
     float price;
     float priceSender;
-    int quantity;
+    int quantity = 0;
 };
 
 struct typeInvoice

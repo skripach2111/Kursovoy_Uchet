@@ -376,6 +376,12 @@
             <bold>true</bold>
            </font>
           </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Номенклатура</string>
@@ -389,11 +395,6 @@
           <column>
            <property name="text">
             <string>Ед. изм.</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Количество</string>
            </property>
           </column>
           <column>
@@ -682,11 +683,6 @@
                 <string>Дата</string>
                </property>
               </column>
-              <column>
-               <property name="text">
-                <string>Примечание</string>
-               </property>
-              </column>
              </widget>
             </item>
            </layout>
@@ -734,7 +730,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
+                 <width>86</width>
                  <height>70</height>
                 </rect>
                </property>
@@ -2132,6 +2128,12 @@
             <bold>true</bold>
            </font>
           </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Наименование</string>
@@ -2256,6 +2258,12 @@
             <italic>true</italic>
             <bold>true</bold>
            </font>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <column>
            <property name="text">
@@ -2429,7 +2437,7 @@
            </font>
           </property>
           <property name="currentIndex">
-           <number>4</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="page_ReportsByDeliveries">
            <property name="geometry">
@@ -2437,7 +2445,7 @@
              <x>0</x>
              <y>0</y>
              <width>1106</width>
-             <height>318</height>
+             <height>355</height>
             </rect>
            </property>
            <attribute name="label">
@@ -2517,7 +2525,7 @@
                         <x>0</x>
                         <y>0</y>
                         <width>560</width>
-                        <height>239</height>
+                        <height>271</height>
                        </rect>
                       </property>
                       <layout class="QGridLayout" name="gridLayout_31">
@@ -2701,7 +2709,7 @@
                       <property name="geometry">
                        <rect>
                         <x>0</x>
-                        <y>0</y>
+                        <y>-71</y>
                         <width>517</width>
                         <height>356</height>
                        </rect>
@@ -2957,7 +2965,7 @@
              <x>0</x>
              <y>0</y>
              <width>1106</width>
-             <height>318</height>
+             <height>355</height>
             </rect>
            </property>
            <attribute name="label">
@@ -3031,7 +3039,7 @@
                         <x>0</x>
                         <y>0</y>
                         <width>560</width>
-                        <height>239</height>
+                        <height>271</height>
                        </rect>
                       </property>
                       <layout class="QGridLayout" name="gridLayout_40">
@@ -3212,7 +3220,7 @@
                       <property name="geometry">
                        <rect>
                         <x>0</x>
-                        <y>0</y>
+                        <y>-71</y>
                         <width>517</width>
                         <height>356</height>
                        </rect>
@@ -3423,7 +3431,7 @@
              <x>0</x>
              <y>0</y>
              <width>1106</width>
-             <height>318</height>
+             <height>355</height>
             </rect>
            </property>
            <attribute name="label">
@@ -3453,7 +3461,7 @@
                </font>
               </property>
               <property name="currentIndex">
-               <number>1</number>
+               <number>0</number>
               </property>
               <widget class="QWidget" name="tab_PopularityTable">
                <attribute name="title">
@@ -3639,365 +3647,13 @@
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="page_ReportsByStorages">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>1106</width>
-             <height>318</height>
-            </rect>
-           </property>
-           <attribute name="label">
-            <string>Отчёты по складам</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_52">
-            <property name="leftMargin">
-             <number>0</number>
-            </property>
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <property name="rightMargin">
-             <number>0</number>
-            </property>
-            <property name="bottomMargin">
-             <number>0</number>
-            </property>
-            <item row="0" column="0">
-             <widget class="QTabWidget" name="tabWidget_2">
-              <property name="font">
-               <font>
-                <pointsize>8</pointsize>
-                <weight>75</weight>
-                <italic>false</italic>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="currentIndex">
-               <number>0</number>
-              </property>
-              <widget class="QWidget" name="tab_3">
-               <attribute name="title">
-                <string>Товары на складах</string>
-               </attribute>
-               <layout class="QGridLayout" name="gridLayout_50">
-                <item row="0" column="0">
-                 <widget class="QGroupBox" name="groupBox_StorageReportOption">
-                  <property name="font">
-                   <font>
-                    <pointsize>8</pointsize>
-                    <weight>50</weight>
-                    <italic>false</italic>
-                    <bold>false</bold>
-                   </font>
-                  </property>
-                  <property name="title">
-                   <string>Параметры:</string>
-                  </property>
-                  <layout class="QGridLayout" name="gridLayout_51">
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item row="0" column="0">
-                    <widget class="QScrollArea" name="scrollArea_5">
-                     <property name="widgetResizable">
-                      <bool>true</bool>
-                     </property>
-                     <widget class="QWidget" name="scrollAreaWidgetContents_5">
-                      <property name="geometry">
-                       <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>531</width>
-                        <height>248</height>
-                       </rect>
-                      </property>
-                      <layout class="QGridLayout" name="gridLayout_47">
-                       <item row="2" column="1">
-                        <spacer name="verticalSpacer_13">
-                         <property name="orientation">
-                          <enum>Qt::Vertical</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                          <size>
-                           <width>20</width>
-                           <height>40</height>
-                          </size>
-                         </property>
-                        </spacer>
-                       </item>
-                       <item row="1" column="1">
-                        <widget class="QPushButton" name="pushButton_StorageReportForm">
-                         <property name="text">
-                          <string>Сформировать</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item row="1" column="0">
-                        <spacer name="horizontalSpacer">
-                         <property name="orientation">
-                          <enum>Qt::Horizontal</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                          <size>
-                           <width>40</width>
-                           <height>20</height>
-                          </size>
-                         </property>
-                        </spacer>
-                       </item>
-                       <item row="0" column="0" colspan="2">
-                        <widget class="QGroupBox" name="groupBox_SelectedStorageInStorageReport">
-                         <property name="title">
-                          <string>Выбарите склады:</string>
-                         </property>
-                         <layout class="QGridLayout" name="gridLayout_46">
-                          <property name="leftMargin">
-                           <number>0</number>
-                          </property>
-                          <property name="topMargin">
-                           <number>0</number>
-                          </property>
-                          <property name="rightMargin">
-                           <number>0</number>
-                          </property>
-                          <property name="bottomMargin">
-                           <number>0</number>
-                          </property>
-                          <item row="1" column="4" rowspan="4">
-                           <widget class="QListWidget" name="listWidget_AvialableStorageInStorageReport"/>
-                          </item>
-                          <item row="2" column="3" rowspan="2">
-                           <spacer name="horizontalSpacer_45">
-                            <property name="orientation">
-                             <enum>Qt::Horizontal</enum>
-                            </property>
-                            <property name="sizeHint" stdset="0">
-                             <size>
-                              <width>9</width>
-                              <height>20</height>
-                             </size>
-                            </property>
-                           </spacer>
-                          </item>
-                          <item row="3" column="2">
-                           <widget class="QPushButton" name="pushButton_ToAvialableStorageInStorageReport">
-                            <property name="maximumSize">
-                             <size>
-                              <width>31</width>
-                              <height>31</height>
-                             </size>
-                            </property>
-                            <property name="text">
-                             <string>-&gt;</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item row="1" column="2">
-                           <spacer name="verticalSpacer_12">
-                            <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                            </property>
-                            <property name="sizeHint" stdset="0">
-                             <size>
-                              <width>20</width>
-                              <height>43</height>
-                             </size>
-                            </property>
-                           </spacer>
-                          </item>
-                          <item row="3" column="1" rowspan="2">
-                           <spacer name="horizontalSpacer_48">
-                            <property name="orientation">
-                             <enum>Qt::Horizontal</enum>
-                            </property>
-                            <property name="sizeHint" stdset="0">
-                             <size>
-                              <width>17</width>
-                              <height>20</height>
-                             </size>
-                            </property>
-                           </spacer>
-                          </item>
-                          <item row="4" column="2">
-                           <spacer name="verticalSpacer_11">
-                            <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                            </property>
-                            <property name="sizeHint" stdset="0">
-                             <size>
-                              <width>20</width>
-                              <height>44</height>
-                             </size>
-                            </property>
-                           </spacer>
-                          </item>
-                          <item row="2" column="2">
-                           <widget class="QPushButton" name="pushButton_ToSelectedStorageInStorageReport">
-                            <property name="maximumSize">
-                             <size>
-                              <width>31</width>
-                              <height>31</height>
-                             </size>
-                            </property>
-                            <property name="text">
-                             <string>&lt;-</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item row="1" column="0" rowspan="4">
-                           <widget class="QListWidget" name="listWidget_SelectedStorageInStorageReport"/>
-                          </item>
-                          <item row="0" column="0">
-                           <widget class="QLabel" name="label_8">
-                            <property name="text">
-                             <string>Выбранные:</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item row="0" column="4">
-                           <widget class="QLabel" name="label_9">
-                            <property name="text">
-                             <string>Доступные:</string>
-                            </property>
-                           </widget>
-                          </item>
-                         </layout>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QGroupBox" name="groupBox_StorageReportResult">
-                  <property name="font">
-                   <font>
-                    <pointsize>8</pointsize>
-                    <weight>50</weight>
-                    <italic>false</italic>
-                    <bold>false</bold>
-                   </font>
-                  </property>
-                  <property name="title">
-                   <string>Результаты:</string>
-                  </property>
-                  <layout class="QGridLayout" name="gridLayout_49">
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item row="0" column="0">
-                    <widget class="QScrollArea" name="scrollArea_6">
-                     <property name="widgetResizable">
-                      <bool>true</bool>
-                     </property>
-                     <widget class="QWidget" name="scrollAreaWidgetContents_6">
-                      <property name="geometry">
-                       <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>531</width>
-                        <height>248</height>
-                       </rect>
-                      </property>
-                      <layout class="QGridLayout" name="gridLayout_48">
-                       <item row="0" column="2" colspan="2">
-                        <spacer name="horizontalSpacer_50">
-                         <property name="orientation">
-                          <enum>Qt::Horizontal</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                          <size>
-                           <width>198</width>
-                           <height>20</height>
-                          </size>
-                         </property>
-                        </spacer>
-                       </item>
-                       <item row="2" column="3">
-                        <widget class="QPushButton" name="pushButton_StorageReportPrint">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="text">
-                          <string>Печать</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item row="0" column="1">
-                        <widget class="QLabel" name="label_5">
-                         <property name="text">
-                          <string>Товары на складах</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item row="0" column="0">
-                        <spacer name="horizontalSpacer_49">
-                         <property name="orientation">
-                          <enum>Qt::Horizontal</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                          <size>
-                           <width>181</width>
-                           <height>20</height>
-                          </size>
-                         </property>
-                        </spacer>
-                       </item>
-                       <item row="1" column="0" colspan="4">
-                        <widget class="QTreeWidget" name="treeWidget_StoragesReport">
-                         <column>
-                          <property name="text">
-                           <string notr="true">1</string>
-                          </property>
-                         </column>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </widget>
-            </item>
-           </layout>
-          </widget>
           <widget class="QWidget" name="page_FinancialReports">
            <property name="geometry">
             <rect>
              <x>0</x>
              <y>0</y>
              <width>1106</width>
-             <height>318</height>
+             <height>355</height>
             </rect>
            </property>
            <attribute name="label">
@@ -4074,7 +3730,7 @@
                         <x>0</x>
                         <y>0</y>
                         <width>548</width>
-                        <height>239</height>
+                        <height>271</height>
                        </rect>
                       </property>
                       <layout class="QGridLayout" name="gridLayout_60">
@@ -4263,7 +3919,7 @@
                         <x>0</x>
                         <y>0</y>
                         <width>531</width>
-                        <height>248</height>
+                        <height>285</height>
                        </rect>
                       </property>
                       <layout class="QGridLayout" name="gridLayout_63">

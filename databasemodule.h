@@ -33,6 +33,8 @@ public:
     resultQuery addProvider(provider provider);
     resultQuery addClient(client client);
 
+    resultQuery addStorno(storno storno);
+
     resultQuery setInvoice(invoice invoice);
     resultQuery setStorage(storage storage);
     resultQuery setProduct(product product);
@@ -64,6 +66,7 @@ public:
 
     QList <product> getListProductByIdStorage(int idStorage);
     QList <product> getListProductByIdInvoice(int idInvoice);
+    QList <product> getListProductByTypeInvoice(int type);
     QList <product> getListProducts();
 
     QList <storage> getListStorages();
@@ -75,14 +78,23 @@ public:
     QList <provider> getListProviders();
 
     QList <invoice> getListInvoiceByType(int idType);
+    QList <invoice> getListInvoicesByTypeAndDate(int idType, QDate begin, QDate end);
     QList <invoice> getListInvoiceByType(int idType, int idStorage);
     QList <invoice> getListInvoiceByTypeAvialableConnectedUser(int idType);
+    QList <invoice> getRepordByComingInvoices(QDate begin, QDate end);
+    QList <invoice> getRepordBySaleInvoices(QDate begin, QDate end);
+
+    QList <product> getReportByPopularProduct();
+    QList <product> getReportByRatingProduct();
+    QList <product> getReportBySaleProduct(QDate begin, QDate end);
 
     QList <storno> getListStornedInvoices();
     QList <storno> getListStornedInvoicesAvialableSelectedUser();
 
     QList <user> getListUsers();
     QList <user> getListUsersByPosition(int id_position);
+
+    float getPriceComingByIdProduct(int id);
 };
 
 #endif // DATABASEMODULE_H

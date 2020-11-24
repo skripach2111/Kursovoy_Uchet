@@ -7,6 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->tabWidget_3->removeTab(1);
+    ui->tabWidget_Invoices->removeTab(4);
+
     connect(ui->pushButton_MainInvoices, SIGNAL(clicked()), this, SLOT(slot_pushButton_MainInvoices_clicked()));
     connect(ui->pushButton_MainProducts, SIGNAL(clicked()), this, SLOT(slot_pushButton_MainProducts_clicked()));
     connect(ui->pushButton_MainStorages, SIGNAL(clicked()), this, SLOT(slot_pushButton_MainStorages_clicked()));
@@ -35,6 +38,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_RemoveProduct, SIGNAL(clicked()), this, SLOT(slot_pushButton_RemoveProduct_clicked()));
 
     connect(ui->tabWidget_Invoices, SIGNAL(currentChanged(int)), this, SLOT(slot_pushButton_tabWidget_Invoices_currentChanget(int)));
+
+    connect(ui->pushButton_ToFormedReportDeliveryReport, SIGNAL(clicked()), this, SLOT(slot_pushButton_ToFormedReportDeliveryReport_clicked()));
+    connect(ui->pushButton_ReportBySalesForm, SIGNAL(clicked()), this, SLOT(slot_pushButton_ReportBySalesForm_clicked()));
 }
 
 MainWindow::~MainWindow()
@@ -218,7 +224,7 @@ void MainWindow::updateStorageTable()
         ui->tableWidget_Storages->setItem(ui->tableWidget_Storages->rowCount()-1, 1, new QTableWidgetItem(listStorages.at(i).city));
         ui->tableWidget_Storages->setItem(ui->tableWidget_Storages->rowCount()-1, 2, new QTableWidgetItem(listStorages.at(i).address));
         ui->tableWidget_Storages->setItem(ui->tableWidget_Storages->rowCount()-1, 3, new QTableWidgetItem(QVariant(listStorages.at(i).capacity).toString()));
-        ui->tableWidget_Storages->setItem(ui->tableWidget_Storages->rowCount()-1, 4, new QTableWidgetItem(QVariant(listStorages.at(i).workload).toString()));
+//        ui->tableWidget_Storages->setItem(ui->tableWidget_Storages->rowCount()-1, 4, new QTableWidgetItem(QVariant(listStorages.at(i).workload).toString()));
     }
 }
 
@@ -324,33 +330,34 @@ void MainWindow::slot_pushButton_AddProvider_clicked()
 
 void MainWindow::updateProductTable()
 {
-    QList <product> listProducts;
-    QList <storage> listStorage = db.getListStorages();
-    bool flag = true;
+    QList <product> listProducts = db.getListProducts();
+    //    QList <storage> listStorage = db.getListStorages();
+    //    bool flag = true;
 
-    listProducts += listStorage.at(0).listProducts;
+    //    listProducts += listStorage.at(0).listProducts;
 
-    for(int i = 1; i < listStorage.size(); i++)
-    {
-        for(int j = 0; j < listStorage.at(i).listProducts.size(); j++)
-        {
-            for(int k = 0; k < listProducts.size(); k++)
-            {
-                if(listStorage.at(i).listProducts.at(j).id == listProducts.at(k).id)
-                {
-                    listProducts[k].quantity += listStorage.at(i).listProducts.at(j).quantity;
-                    k = listProducts.size();
-                    flag = false;
-                }
-            }
+    //    for(int i = 1; i < listStorage.size(); i++)
+    //    {
+    //        for(int j = 0; j < listStorage.at(i).listProducts.size(); j++)
+    //        {
+    //            for(int k = 0; k < listProducts.size(); k++)
+    //            {
+    //                if(listStorage.at(i).listProducts.at(j).id == listProducts.at(k).id)
+    //                {
+    //                    listProducts[k].quantity += listStorage.at(i).listProducts.at(j).quantity;
+    //                    k = listProducts.size();
+    //                    flag = false;
+    //                }
+    //            }
 
-            if(flag)
-            {
-                listProducts.push_back(listStorage.at(i).listProducts.at(j));
-                flag = false;
-            }
-        }
-    }
+    //            if(flag)
+    //            {
+    //                listProducts.push_back(listStorage.at(i).listProducts.at(j));
+    //            }
+
+    //            flag = true;
+    //        }
+    //    }
 
     ui->tableWidget_Products->setRowCount(0);
 
@@ -360,8 +367,8 @@ void MainWindow::updateProductTable()
         ui->tableWidget_Products->setItem(ui->tableWidget_Products->rowCount()-1, 0, new QTableWidgetItem(listProducts.at(i).nomenclature));
         ui->tableWidget_Products->setItem(ui->tableWidget_Products->rowCount()-1, 1, new QTableWidgetItem(listProducts.at(i).title));
         ui->tableWidget_Products->setItem(ui->tableWidget_Products->rowCount()-1, 2, new QTableWidgetItem(listProducts.at(i).measuring));
-        ui->tableWidget_Products->setItem(ui->tableWidget_Products->rowCount()-1, 3, new QTableWidgetItem(listProducts.at(i).quantity));
-        ui->tableWidget_Products->setItem(ui->tableWidget_Products->rowCount()-1, 4, new QTableWidgetItem(listProducts.at(i).price));
+        //        ui->tableWidget_Products->setItem(ui->tableWidget_Products->rowCount()-1, 3, new QTableWidgetItem(listProducts.at(i).quantity));
+        ui->tableWidget_Products->setItem(ui->tableWidget_Products->rowCount()-1, 3, new QTableWidgetItem(QVariant(listProducts.at(i).price).toString()));
     }
 }
 
@@ -400,21 +407,25 @@ void MainWindow::slot_pushButton_tabWidget_Invoices_currentChanget(int number)
     {
     case 0:
     {
+        ui->stackedWidget_ControlButtons->setVisible(true);
         updateComingInvoicesTable();
         break;
     }
     case 1:
     {
+        ui->stackedWidget_ControlButtons->setVisible(true);
         updateSenderInvoicesTable();
         break;
     }
     case 2:
     {
+        ui->stackedWidget_ControlButtons->setVisible(true);
         updateMovingInvoicesTable();
         break;
     }
     case 3:
     {
+        ui->stackedWidget_ControlButtons->setVisible(false);
         updateStornedInvoicesTable();
         break;
     }
@@ -466,10 +477,10 @@ void MainWindow::updateStornedInvoicesTable()
     for(int i = 0; i < listInvoices.size(); i++)
     {
         ui->tableWidget_stornoInvoices->insertRow(ui->tableWidget_stornoInvoices->rowCount());
-        ui->tableWidget_stornoInvoices->setItem(ui->tableWidget_stornoInvoices->rowCount()-1, 0, new QTableWidgetItem(listInvoices.at(i).invoice.id));
+        ui->tableWidget_stornoInvoices->setItem(ui->tableWidget_stornoInvoices->rowCount()-1, 0, new QTableWidgetItem(QVariant(listInvoices.at(i).invoice.id).toString()));
         ui->tableWidget_stornoInvoices->setItem(ui->tableWidget_stornoInvoices->rowCount()-1, 1, new QTableWidgetItem(listInvoices.at(i).invoice.typeInvoice.title));
         ui->tableWidget_stornoInvoices->setItem(ui->tableWidget_stornoInvoices->rowCount()-1, 2, new QTableWidgetItem(listInvoices.at(i).invoice.data.toString(Qt::LocalDate)));
-        ui->tableWidget_stornoInvoices->setItem(ui->tableWidget_stornoInvoices->rowCount()-1, 3, new QTableWidgetItem(listInvoices.at(i).note));
+        //        ui->tableWidget_stornoInvoices->setItem(ui->tableWidget_stornoInvoices->rowCount()-1, 3, new QTableWidgetItem(listInvoices.at(i).note));
     }
 }
 
@@ -506,7 +517,7 @@ void MainWindow::slot_pushButton_SetClient_clicked()
 {
     AddOrSetClient_Dialog AddDialog;
     client cl;
-    AddDialog.setClient(db.getClientById(ui->tableWidget_Clients->currentRow()+1));
+    AddDialog.setClient(db.getClientById(ui->tableWidget_Clients->selectedItems().at(0)->row()+1));
     AddDialog.exec();
     cl = AddDialog.getClient();
     if(cl.title.size() != 0)
@@ -580,4 +591,397 @@ void MainWindow::slot_pushButton_RemoveProduct_clicked()
     product pr = db.getProductById(ui->tableWidget_Products->currentRow()+1);
     db.deleteProduct(pr);
     updateProductTable();
+}
+
+void MainWindow::slot_pushButton_ToFormedReportDeliveryReport_clicked()
+{
+    QList <invoice> listInvoices = db.getRepordByComingInvoices(ui->calendarWidge_PeriodBegin->selectedDate(), ui->calendarWidget_PeriodEnd->selectedDate());
+    QList <product> listProducts;
+    bool flag = true;
+
+    listProducts += listInvoices.at(0).listProducts;
+
+    for(int i = 1; i < listInvoices.size(); i++)
+    {
+        for(int j = 0; j < listInvoices.at(i).listProducts.size(); j++)
+        {
+            for(int k = 0; k < listProducts.size(); k++)
+            {
+                if(listInvoices.at(i).listProducts.at(j).id == listProducts.at(k).id)
+                {
+                    listProducts[k].quantity += listInvoices.at(i).listProducts.at(j).quantity;
+                    k = listProducts.size();
+                    flag = false;
+                }
+            }
+
+            if(flag)
+            {
+                listProducts.push_back(listInvoices.at(i).listProducts.at(j));
+            }
+
+            flag = true;
+        }
+    }
+
+    ui->tableWidget_ProductInDeliveryReport->setRowCount(0);
+
+    for(int i = 0; i < listProducts.size(); i++)
+    {
+        ui->tableWidget_ProductInDeliveryReport->insertRow(ui->tableWidget_ProductInDeliveryReport->rowCount());
+        ui->tableWidget_ProductInDeliveryReport->setItem(ui->tableWidget_ProductInDeliveryReport->rowCount()-1, 0, new QTableWidgetItem(listProducts.at(i).nomenclature));
+        ui->tableWidget_ProductInDeliveryReport->setItem(ui->tableWidget_ProductInDeliveryReport->rowCount()-1, 1, new QTableWidgetItem(listProducts.at(i).title));
+        ui->tableWidget_ProductInDeliveryReport->setItem(ui->tableWidget_ProductInDeliveryReport->rowCount()-1, 2, new QTableWidgetItem(QVariant(listProducts.at(i).quantity).toString()));
+        ui->tableWidget_ProductInDeliveryReport->setItem(ui->tableWidget_ProductInDeliveryReport->rowCount()-1, 3, new QTableWidgetItem(listProducts.at(i).measuring));
+        ui->tableWidget_ProductInDeliveryReport->setItem(ui->tableWidget_ProductInDeliveryReport->rowCount()-1, 4, new QTableWidgetItem(QVariant(listProducts.at(i).priceSender).toString()));
+        ui->tableWidget_ProductInDeliveryReport->setItem(ui->tableWidget_ProductInDeliveryReport->rowCount()-1, 5, new QTableWidgetItem(QVariant(listProducts.at(i).priceSender*listProducts.at(i).quantity).toString()));
+    }
+
+    int sum = 0;
+    int number = 0;
+
+    for(int i = 0; i < listProducts.size(); i++)
+    {
+        sum += listProducts.at(i).quantity*listProducts.at(i).priceSender;
+        number += listProducts.at(i).quantity;
+    }
+
+    ui->label_NumberProductsInDeliveryReport->setText(QVariant(number).toString());
+    ui->label_SumInDeliveryReport->setText(QVariant(sum).toString());
+    ui->label_TimePriodInDeliveryReport->setText("с " + ui->calendarWidge_PeriodBegin->selectedDate().toString(Qt::LocalDate) + " по " + ui->calendarWidget_PeriodEnd->selectedDate().toString(Qt::LocalDate));
+}
+
+void MainWindow::slot_pushButton_ReportBySalesForm_clicked()
+{
+    QList <invoice> listInvoices = db.getRepordBySaleInvoices(ui->calendarWidget_PeriodSaleBegin->selectedDate(), ui->calendarWidget_PeriodSaleEnd->selectedDate());
+    QList <product> listProducts;
+    bool flag = true;
+
+    listProducts += listInvoices.at(0).listProducts;
+
+    for(int i = 1; i < listInvoices.size(); i++)
+    {
+        for(int j = 0; j < listInvoices.at(i).listProducts.size(); j++)
+        {
+            for(int k = 0; k < listProducts.size(); k++)
+            {
+                if(listInvoices.at(i).listProducts.at(j).id == listProducts.at(k).id)
+                {
+                    listProducts[k].quantity += listInvoices.at(i).listProducts.at(j).quantity;
+                    k = listProducts.size();
+                    flag = false;
+                }
+            }
+
+            if(flag)
+            {
+                listProducts.push_back(listInvoices.at(i).listProducts.at(j));
+            }
+
+            flag = true;
+        }
+    }
+
+    ui->tableWidget_ProductsInSaleReport->setRowCount(0);
+
+    for(int i = 0; i < listProducts.size(); i++)
+    {
+        ui->tableWidget_ProductsInSaleReport->insertRow(ui->tableWidget_ProductsInSaleReport->rowCount());
+        ui->tableWidget_ProductsInSaleReport->setItem(ui->tableWidget_ProductsInSaleReport->rowCount()-1, 0, new QTableWidgetItem(listProducts.at(i).nomenclature));
+        ui->tableWidget_ProductsInSaleReport->setItem(ui->tableWidget_ProductsInSaleReport->rowCount()-1, 1, new QTableWidgetItem(listProducts.at(i).title));
+        ui->tableWidget_ProductsInSaleReport->setItem(ui->tableWidget_ProductsInSaleReport->rowCount()-1, 2, new QTableWidgetItem(QVariant(listProducts.at(i).quantity).toString()));
+        ui->tableWidget_ProductsInSaleReport->setItem(ui->tableWidget_ProductsInSaleReport->rowCount()-1, 3, new QTableWidgetItem(listProducts.at(i).measuring));
+        ui->tableWidget_ProductsInSaleReport->setItem(ui->tableWidget_ProductsInSaleReport->rowCount()-1, 4, new QTableWidgetItem(QVariant(listProducts.at(i).price).toString()));
+        ui->tableWidget_ProductsInSaleReport->setItem(ui->tableWidget_ProductsInSaleReport->rowCount()-1, 5, new QTableWidgetItem(QVariant(listProducts.at(i).price*listProducts.at(i).quantity).toString()));
+    }
+
+    int sum = 0;
+    int number = 0;
+
+    for(int i = 0; i < listProducts.size(); i++)
+    {
+        sum += listProducts.at(i).quantity*listProducts.at(i).price;
+        number += listProducts.at(i).quantity;
+    }
+
+    ui->label_NumberProductsInSaleReport->setText(QVariant(number).toString());
+    ui->label_SumInSaleReport->setText(QVariant(sum).toString());
+    ui->label_label_TimePriodInSaleReport->setText("с " + ui->calendarWidget_PeriodSaleBegin->selectedDate().toString(Qt::LocalDate) + " по " + ui->calendarWidget_PeriodSaleEnd->selectedDate().toString(Qt::LocalDate));
+}
+
+void MainWindow::on_pushButton_PopularityTableForm_clicked()
+{
+    QList <product> listProducts = db.getReportByPopularProduct();
+
+    ui->tableWidget_PopularityTable->setRowCount(0);
+
+    for(int i = 0; i < listProducts.size(); i++)
+    {
+        ui->tableWidget_PopularityTable->insertRow(ui->tableWidget_PopularityTable->rowCount());
+        ui->tableWidget_PopularityTable->setItem(ui->tableWidget_PopularityTable->rowCount()-1, 0, new QTableWidgetItem(listProducts.at(i).nomenclature));
+        ui->tableWidget_PopularityTable->setItem(ui->tableWidget_PopularityTable->rowCount()-1, 1, new QTableWidgetItem(listProducts.at(i).title));
+        ui->tableWidget_PopularityTable->setItem(ui->tableWidget_PopularityTable->rowCount()-1, 2, new QTableWidgetItem(QVariant(listProducts.at(i).quantity).toString()));
+    }
+}
+
+void MainWindow::on_pushButton_FinancialReportForm_clicked()
+{
+    QList <product> listProducts = db.getReportBySaleProduct(ui->calendarWidget_FinancialReportPeriodBegin->selectedDate(), ui->calendarWidget_FinancialReportPeriodEnd->selectedDate());
+
+    float sumComing = 0;
+    float sumSale = 0;
+    int number = 0;
+    float benefit = 0;
+
+    for(int i = 0; i < listProducts.size(); i++)
+        number += listProducts.at(i).quantity;
+
+    for(int i = 0; i < listProducts.size(); i++)
+        sumComing += listProducts.at(i).quantity*listProducts.at(i).priceSender;
+
+    for(int i = 0; i < listProducts.size(); i++)
+        sumSale += listProducts.at(i).quantity*listProducts.at(i).price;
+
+    benefit = sumSale - sumComing;
+
+    ui->label_FinancialReportPeriod->setText("с " + ui->calendarWidget_FinancialReportPeriodBegin->selectedDate().toString(Qt::LocalDate) + " по " + ui->calendarWidget_FinancialReportPeriodEnd->selectedDate().toString(Qt::LocalDate));
+    ui->label_FinancialReportNumberSaleProduct->setText(QVariant(number).toString());
+    ui->label_SumCostSalePurchase->setText(QVariant(sumComing).toString());
+    ui->label_SumCostSale->setText(QVariant(sumSale).toString());
+    ui->label_SumBenefit->setText(QVariant(benefit).toString());
+}
+
+void MainWindow::on_pushButton_StornInvoice_clicked()
+{
+    storno st;
+
+    switch (ui->tabWidget_Invoices->currentIndex())
+    {
+    case 0:
+    {
+        qDebug() << ui->tableWidget_comingInvoices->selectedItems().at(0)->text().toInt();
+        st.invoice = db.getInvoiceById(ui->tableWidget_comingInvoices->selectedItems().at(0)->text().toInt());
+        break;
+    }
+    case 1:
+    {
+        qDebug() << ui->tableWidget_careInvoices->selectedItems().at(0)->text().toInt();
+        st.invoice = db.getInvoiceById(ui->tableWidget_careInvoices->selectedItems().at(0)->text().toInt());
+        break;
+    }
+    case 2:
+    {
+        st.invoice = db.getInvoiceById(ui->tableWidget_movingInvoices->selectedItems().at(0)->text().toInt());
+        break;
+    }
+    }
+
+    db.addStorno(st);
+    updateStornedInvoicesTable();
+}
+
+void MainWindow::on_pushButton_MoreAboutInvoice_clicked()
+{
+    MoreAboutInvoice_Dialog MoreDialog;
+    invoice inv;
+
+    switch (ui->tabWidget_Invoices->currentIndex())
+    {
+    case 0:
+    {
+        inv = db.getInvoiceById(ui->tableWidget_comingInvoices->selectedItems().at(0)->text().toInt());
+        break;
+    }
+    case 1:
+    {
+        inv = db.getInvoiceById(ui->tableWidget_careInvoices->selectedItems().at(0)->text().toInt());
+        break;
+    }
+    case 2:
+    {
+        inv = db.getInvoiceById(ui->tableWidget_movingInvoices->selectedItems().at(0)->text().toInt());
+        break;
+    }
+    }
+
+    MoreDialog.setDialog(inv);
+    MoreDialog.exec();
+}
+
+void MainWindow::on_pushButton_PrintDeliveryReport_clicked()
+{
+    QString textForCheck;
+    QString textForDocument;
+
+    textForCheck = "\t\t\tПоставки\t\t\t\n\t\t\t"+ui->label_TimePriodInDeliveryReport->text()+"\t\t\t\n";
+    textForCheck += "######################################################################\n";
+    textForCheck += "Номенклатура\t Наименование\t Количество\t Ед.изм.\t Цена за ед.\t Сумма\n";
+    textForCheck += "######################################################################\n";
+
+    ui->tableWidget_ProductInDeliveryReport->selectAll();
+
+    for(int i = 0; i < ui->tableWidget_ProductInDeliveryReport->rowCount(); i++)
+    {
+        textForCheck += ui->tableWidget_ProductInDeliveryReport->selectedItems().at(i)->text()+"\t";
+        textForCheck += ui->tableWidget_ProductInDeliveryReport->selectedItems().at(i+1)->text()+"\t";
+        textForCheck += ui->tableWidget_ProductInDeliveryReport->selectedItems().at(i+2)->text()+"\t";
+        textForCheck += ui->tableWidget_ProductInDeliveryReport->selectedItems().at(i+3)->text()+"\t";
+        textForCheck += ui->tableWidget_ProductInDeliveryReport->selectedItems().at(i+4)->text()+"\t";
+        textForCheck += ui->tableWidget_ProductInDeliveryReport->selectedItems().at(i+5)->text()+"\t\n";
+    }
+
+    textForCheck += "######################################################################\n";
+
+    textForCheck += "\nОбщее количество: " + ui->label_NumberProductsInDeliveryReport->text();
+    textForCheck += "\nОбщая сумма: " + ui->label_SumInDeliveryReport->text();
+    textForCheck += "\n####################################################################\n";
+
+    textForDocument = "\t\t\tПоставки\t\t\t\n\t\t\t"+ui->label_TimePriodInDeliveryReport->text()+"\t\t\t\n";
+    textForDocument += "\n";
+    textForDocument += "Номенклатура\t Наименование\t Количество\t Ед.изм.\t Цена за ед.\t Сумма\n";
+    textForDocument += "\n";
+
+    for(int i = 0; i < ui->tableWidget_ProductInDeliveryReport->rowCount(); i++)
+    {
+        textForDocument += ui->tableWidget_ProductInDeliveryReport->selectedItems().at(i)->text()+"\t";
+        textForDocument += ui->tableWidget_ProductInDeliveryReport->selectedItems().at(i+1)->text()+"\t";
+        textForDocument += ui->tableWidget_ProductInDeliveryReport->selectedItems().at(i+2)->text()+"\t";
+        textForDocument += ui->tableWidget_ProductInDeliveryReport->selectedItems().at(i+3)->text()+"\t";
+        textForDocument += ui->tableWidget_ProductInDeliveryReport->selectedItems().at(i+4)->text()+"\t";
+        textForDocument += ui->tableWidget_ProductInDeliveryReport->selectedItems().at(i+5)->text()+"\t\n";
+    }
+
+    textForDocument += "\n";
+
+    textForDocument += "\nОбщее количество: " + ui->label_NumberProductsInDeliveryReport->text();
+    textForDocument += "\nОбщая сумма: " + ui->label_SumInDeliveryReport->text();
+    textForDocument += "\n";
+
+    PrintPreview_Dialog preview;
+    preview.setDialog(textForCheck, textForDocument);
+    preview.exec();
+}
+
+void MainWindow::on_pushButton_PrintSaleReport_clicked()
+{
+    QString textForCheck;
+    QString textForDocument;
+
+    textForCheck = "\t\t\Продажи\t\t\t\n\t\t\t"+ui->label_label_TimePriodInSaleReport->text()+"\t\t\t\n";
+    textForCheck += "######################################################################\n";
+    textForCheck += "Номенклатура\t Наименование\t Количество\t Ед.изм.\t Цена за ед.\t Сумма\n";
+    textForCheck += "######################################################################\n";
+
+    ui->tableWidget_ProductsInSaleReport->selectAll();
+
+    for(int i = 0; i < ui->tableWidget_ProductsInSaleReport->rowCount(); i++)
+    {
+        textForCheck += ui->tableWidget_ProductsInSaleReport->selectedItems().at(i)->text()+"\t";
+        textForCheck += ui->tableWidget_ProductsInSaleReport->selectedItems().at(i+1)->text()+"\t";
+        textForCheck += ui->tableWidget_ProductsInSaleReport->selectedItems().at(i+2)->text()+"\t";
+        textForCheck += ui->tableWidget_ProductsInSaleReport->selectedItems().at(i+3)->text()+"\t";
+        textForCheck += ui->tableWidget_ProductsInSaleReport->selectedItems().at(i+4)->text()+"\t";
+        textForCheck += ui->tableWidget_ProductsInSaleReport->selectedItems().at(i+5)->text()+"\t\n";
+    }
+
+    textForCheck += "######################################################################\n";
+
+    textForCheck += "\nОбщее количество: " + ui->label_NumberProductsInSaleReport->text();
+    textForCheck += "\nОбщая сумма: " + ui->label_SumInSaleReport->text();
+    textForCheck += "\n####################################################################\n";
+
+    textForDocument = "\t\t\tПоставки\t\t\t\n\t\t\t"+ui->label_TimePriodInDeliveryReport->text()+"\t\t\t\n";
+    textForDocument += "\n";
+    textForDocument += "Номенклатура\t Наименование\t Количество\t Ед.изм.\t Цена за ед.\t Сумма\n";
+    textForDocument += "\n";
+
+    for(int i = 0; i < ui->tableWidget_ProductInDeliveryReport->rowCount(); i++)
+    {
+        textForDocument += ui->tableWidget_ProductsInSaleReport->selectedItems().at(i)->text()+"\t";
+        textForDocument += ui->tableWidget_ProductsInSaleReport->selectedItems().at(i+1)->text()+"\t";
+        textForDocument += ui->tableWidget_ProductsInSaleReport->selectedItems().at(i+2)->text()+"\t";
+        textForDocument += ui->tableWidget_ProductsInSaleReport->selectedItems().at(i+3)->text()+"\t";
+        textForDocument += ui->tableWidget_ProductsInSaleReport->selectedItems().at(i+4)->text()+"\t";
+        textForDocument += ui->tableWidget_ProductsInSaleReport->selectedItems().at(i+5)->text()+"\t\n";
+    }
+
+    textForDocument += "\n";
+
+    textForDocument += "\nОбщее количество: " + ui->label_NumberProductsInSaleReport->text();
+    textForDocument += "\nОбщая сумма: " + ui->label_SumInSaleReport->text();
+    textForDocument += "\n";
+
+    PrintPreview_Dialog preview;
+    preview.setDialog(textForCheck, textForDocument);
+    preview.exec();
+}
+
+void MainWindow::on_pushButton_PopularityTablePrint_clicked()
+{
+    QString textForCheck;
+    QString textForDocument;
+
+    textForCheck += "###########################################\n";
+    textForCheck += "Номенклатура\t Наименование\t Количество\n";
+    textForCheck += "###########################################\n";
+
+    ui->tableWidget_PopularityTable->selectAll();
+
+    for(int i = 0; i < ui->tableWidget_PopularityTable->rowCount(); i++)
+    {
+        textForCheck += ui->tableWidget_PopularityTable->selectedItems().at(i)->text()+"\t";
+        textForCheck += ui->tableWidget_PopularityTable->selectedItems().at(i+1)->text()+"\t";
+        textForCheck += ui->tableWidget_PopularityTable->selectedItems().at(i+2)->text()+"\t\n";
+    }
+
+    textForCheck += "###########################################\n";
+
+    textForDocument += "\n";
+    textForDocument += "Номенклатура\t Наименование\t Количество\n";
+    textForDocument += "\n";
+
+    for(int i = 0; i < ui->tableWidget_PopularityTable->rowCount(); i++)
+    {
+        textForDocument += ui->tableWidget_PopularityTable->selectedItems().at(i)->text()+"\t";
+        textForDocument += ui->tableWidget_PopularityTable->selectedItems().at(i+1)->text()+"\t";
+        textForDocument += ui->tableWidget_PopularityTable->selectedItems().at(i+2)->text()+"\t\n";
+    }
+
+    textForDocument += "\n";
+
+    PrintPreview_Dialog preview;
+    preview.setDialog(textForCheck, textForDocument);
+    preview.exec();
+}
+
+void MainWindow::on_pushButton_FinancialReportPrint_clicked()
+{
+    QString textForCheck;
+    QString textForDocument;
+
+    textForCheck = "\t\t\Отчёт\n\t\t"+ui->label_FinancialReportPeriod->text()+"\t\t\t\n";
+
+
+    textForCheck += "#########################################\n";
+    textForCheck += "Общее количество проданного товара: " + ui->label_FinancialReportNumberSaleProduct->text();
+    textForCheck += "\nОбщая стоимость проданного товара при закупке: " + ui->label_SumCostSalePurchase->text();
+    textForCheck += "\nОбщая стоимость проданного товара при продаже: " + ui->label_SumCostSale->text();
+    textForCheck += "\nСуммарная выгода с проданного товара: " + ui->label_SumBenefit->text();
+    textForCheck += "\n#######################################\n";
+
+    textForDocument = "\t\t\Отчёт\n\t\t"+ui->label_FinancialReportPeriod->text()+"\t\t\t\n";
+    textForDocument += "\nОбщее количество проданного товара: " + ui->label_FinancialReportNumberSaleProduct->text();
+    textForDocument += "\nОбщая стоимость проданного товара при закупке: " + ui->label_SumCostSalePurchase->text();
+    textForDocument += "\nОбщая стоимость проданного товара при продаже: " + ui->label_SumCostSale->text();
+    textForDocument += "\nСуммарная выгода с проданного товара: " + ui->label_SumBenefit->text();
+    textForDocument += "\n";
+
+    PrintPreview_Dialog preview;
+    preview.setDialog(textForCheck, textForDocument);
+    preview.exec();
+}
+
+void MainWindow::on_pushButton_ToFormedReportDeliveryReport_clicked()
+{
+
 }

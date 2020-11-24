@@ -9,6 +9,8 @@
 #include "addorsetprovider_dialog.h"
 #include "addorsetproduct_dialog.h"
 #include "addinvoice_dialog.h"
+#include "moreaboutinvoice_dialog.h"
+#include "printpreview_dialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -64,6 +66,27 @@ private slots:
     void slot_pushButton_RemoveClient_clicked();
     void slot_pushButton_RemoveProvider_clicked();
     void slot_pushButton_RemoveProduct_clicked();
+
+    void slot_pushButton_ToFormedReportDeliveryReport_clicked();
+    void slot_pushButton_ReportBySalesForm_clicked();
+
+    void on_pushButton_PopularityTableForm_clicked();
+
+    void on_pushButton_FinancialReportForm_clicked();
+
+    void on_pushButton_StornInvoice_clicked();
+
+    void on_pushButton_MoreAboutInvoice_clicked();
+
+    void on_pushButton_PrintDeliveryReport_clicked();
+
+    void on_pushButton_PrintSaleReport_clicked();
+
+    void on_pushButton_PopularityTablePrint_clicked();
+
+    void on_pushButton_FinancialReportPrint_clicked();
+
+    void on_pushButton_ToFormedReportDeliveryReport_clicked();
 
 private:
     Ui::MainWindow *ui;

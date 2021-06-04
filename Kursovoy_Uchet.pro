@@ -1,6 +1,7 @@
 QT       += core gui
 QT       += core sql
 QT       += printsupport
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,7 +29,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     moreaboutinvoice_dialog.cpp \
-    printpreview_dialog.cpp
+    printpreview_dialog.cpp \
+    server.cpp
 
 HEADERS += \
     addinvoice_dialog.h \
@@ -48,7 +50,8 @@ HEADERS += \
     mainwindow.h \
     moreaboutinvoice_dialog.h \
     objectsdatabase.h \
-    printpreview_dialog.h
+    printpreview_dialog.h \
+    server.h
 
 FORMS += \
     addinvoice_dialog.ui \

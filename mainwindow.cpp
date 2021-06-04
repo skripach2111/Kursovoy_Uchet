@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QLineEdit>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -41,6 +43,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->pushButton_ToFormedReportDeliveryReport, SIGNAL(clicked()), this, SLOT(slot_pushButton_ToFormedReportDeliveryReport_clicked()));
     connect(ui->pushButton_ReportBySalesForm, SIGNAL(clicked()), this, SLOT(slot_pushButton_ReportBySalesForm_clicked()));
+
+    connect(&server, SIGNAL(startServerSuccessful()), this, SLOT(slotStartServerSuccessful()));
+    connect(&server, SIGNAL(inputMessage(QString)), this, SLOT(slotInputMessage(QString)));
+    connect(&server, SIGNAL(serverStop()), this, SLOT(slotServerStop()));
+    connect(&server, SIGNAL(clientDisconnected()), this, SLOT(slotClientDisconnected()));
+    connect(&server, SIGNAL(clientConnected()), this, SLOT(slotClientConnected()));
 }
 
 MainWindow::~MainWindow()
@@ -55,6 +63,8 @@ void MainWindow::setWorkspaceForHeadOfStorage()
     ui->pushButton_MainClients->setVisible(false);
     ui->pushButton_MainProducts->setVisible(false);
     ui->pushButton_MainStorages->setVisible(false);
+
+
 }
 
 void MainWindow::setWorkspaceForAccountant()
@@ -126,6 +136,7 @@ void MainWindow::slot_pushButton_MainInvoices_clicked()
     ui->pushButton_MainReports->setChecked(false);
     ui->pushButton_MainStorages->setChecked(false);
     ui->pushButton_MainUsers->setChecked(false);
+    ui->pushButton_Device->setChecked(false);
     updateComingInvoicesTable();
 }
 
@@ -139,7 +150,7 @@ void MainWindow::slot_pushButton_MainProducts_clicked()
     ui->pushButton_MainReports->setChecked(false);
     ui->pushButton_MainStorages->setChecked(false);
     ui->pushButton_MainUsers->setChecked(false);
-
+ui->pushButton_Device->setChecked(false);
     updateProductTable();
 }
 
@@ -153,7 +164,7 @@ void MainWindow::slot_pushButton_MainStorages_clicked()
     ui->pushButton_MainClients->setChecked(false);
     ui->pushButton_MainReports->setChecked(false);
     ui->pushButton_MainUsers->setChecked(false);
-
+ui->pushButton_Device->setChecked(false);
     updateStorageTable();
 }
 
@@ -167,7 +178,7 @@ void MainWindow::slot_pushButton_MainProviders_clicked()
     ui->pushButton_MainReports->setChecked(false);
     ui->pushButton_MainStorages->setChecked(false);
     ui->pushButton_MainUsers->setChecked(false);
-
+ui->pushButton_Device->setChecked(false);
     updateProviderTable();
 }
 
@@ -181,6 +192,7 @@ void MainWindow::slot_pushButton_MainReports_clicked()
     ui->pushButton_MainClients->setChecked(false);
     ui->pushButton_MainStorages->setChecked(false);
     ui->pushButton_MainUsers->setChecked(false);
+    ui->pushButton_Device->setChecked(false);
 }
 
 void MainWindow::slot_pushButton_MainClients_clicked()
@@ -193,7 +205,7 @@ void MainWindow::slot_pushButton_MainClients_clicked()
     ui->pushButton_MainReports->setChecked(false);
     ui->pushButton_MainStorages->setChecked(false);
     ui->pushButton_MainUsers->setChecked(false);
-
+ui->pushButton_Device->setChecked(false);
     updateClientTable();
 }
 
@@ -207,7 +219,7 @@ void MainWindow::slot_pushButton_MainUsers_clicked()
     ui->pushButton_MainClients->setChecked(false);
     ui->pushButton_MainReports->setChecked(false);
     ui->pushButton_MainStorages->setChecked(false);
-
+ui->pushButton_Device->setChecked(false);
     updateUserTable();
 }
 
@@ -984,4 +996,69 @@ void MainWindow::on_pushButton_FinancialReportPrint_clicked()
 void MainWindow::on_pushButton_ToFormedReportDeliveryReport_clicked()
 {
 
+}
+
+void MainWindow::slotStartServerSuccessful()
+{
+    ui->pushButton_startServer->setEnabled(false);
+    ui->pushButton_stopServer->setEnabled(true);
+    ui->label_statusServer->setText("Работает");
+    ui->label_ipServer->setText(server.getHost().ip.toString());
+    ui->label_portServer->setText(QVariant(server.getHost().port).toString());
+}
+
+void MainWindow::slotServerStop()
+{
+    ui->pushButton_startServer->setEnabled(true);
+    ui->pushButton_stopServer->setEnabled(false);
+    ui->label_statusServer->setText("Остановлен");
+}
+
+void MainWindow::slotClientConnected()
+{
+    ui->label_statusDevice->setText("Подключено");
+}
+
+void MainWindow::slotClientDisconnected()
+{
+    ui->label_statusDevice->setText("Отключено");
+}
+
+void MainWindow::slotInputMessage(QString message)
+{
+    qDebug() << message;
+    QString input = QApplication::focusObject()->objectName();
+    if(input.indexOf("lineEdit") > -1)
+    {
+        QLineEdit* lineEdit = (QLineEdit*)QApplication::focusObject();
+        lineEdit->setText(message);
+    }
+}
+
+void MainWindow::on_pushButton_startServer_clicked()
+{
+    server.slotStart();
+}
+
+void MainWindow::on_pushButton_stopServer_clicked()
+{
+    server.slotStop();
+}
+
+void MainWindow::on_pushButton_MainInvoices_clicked()
+{
+
+}
+
+void MainWindow::on_pushButton_Device_clicked()
+{
+    ui->stackedWidget_MainWorkSpace->setCurrentIndex(7);
+
+    ui->pushButton_MainInvoices->setChecked(false);
+    ui->pushButton_MainProducts->setChecked(false);
+    ui->pushButton_MainProviders->setChecked(false);
+    ui->pushButton_MainClients->setChecked(false);
+    ui->pushButton_MainReports->setChecked(false);
+    ui->pushButton_MainStorages->setChecked(false);
+ui->pushButton_Device->setChecked(false);
 }

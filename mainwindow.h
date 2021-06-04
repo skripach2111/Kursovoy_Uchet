@@ -11,6 +11,7 @@
 #include "addinvoice_dialog.h"
 #include "moreaboutinvoice_dialog.h"
 #include "printpreview_dialog.h"
+#include "server.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,6 +21,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
     DatabaseModule db;
+    Server server;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -39,7 +41,7 @@ public:
     void updateProviderTable();
     void updateProductTable();
 
-private slots:
+public slots:
     void slot_pushButton_MainInvoices_clicked();
     void slot_pushButton_MainProducts_clicked();
     void slot_pushButton_MainStorages_clicked();
@@ -87,6 +89,21 @@ private slots:
     void on_pushButton_FinancialReportPrint_clicked();
 
     void on_pushButton_ToFormedReportDeliveryReport_clicked();
+
+    void slotStartServerSuccessful();
+    void slotInputMessage(QString message);
+    void slotServerStop();
+    void slotClientDisconnected();
+    void slotClientConnected();
+
+private slots:
+    void on_pushButton_startServer_clicked();
+
+    void on_pushButton_stopServer_clicked();
+
+    void on_pushButton_MainInvoices_clicked();
+
+    void on_pushButton_Device_clicked();
 
 private:
     Ui::MainWindow *ui;
